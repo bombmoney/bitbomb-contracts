@@ -44,7 +44,7 @@ contract BombRewardPool {
     // The time when BOMB mining starts.
     uint256 public poolStartTime;
 
-    uint256[] public epochTotalRewards = [80000 ether, 60000 ether];
+    uint256[] public epochTotalRewards = [140000 ether];
 
     // Time when each epoch ends.
     uint256[3] public epochEndTimes;
@@ -67,7 +67,7 @@ contract BombRewardPool {
         epochEndTimes[1] = epochEndTimes[0] + 5 days; // Day 6-10
 
         epochBombPerSecond[0] = epochTotalRewards[0].div(4 days);
-        epochBombPerSecond[1] = epochTotalRewards[1].div(5 days);
+        epochBombPerSecond[1] = 0;
 
         epochBombPerSecond[2] = 0;
         operator = msg.sender;

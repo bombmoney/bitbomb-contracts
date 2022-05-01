@@ -1,13 +1,9 @@
+module.exports = async function ({getNamedAccounts, deployments}) {
+    const {deploy} = deployments;
 
-module.exports = async function ({
-    getNamedAccounts,
-    deployments,
-}) {
-    const { deploy } = deployments;
+    const {deployer, dev} = await getNamedAccounts();
 
-    const { deployer, dev } = await getNamedAccounts();
-
-    await deploy("Bomb", {
+    await deploy('SBomb', {
         from: deployer,
         args: [0, dev],
         log: true,
@@ -15,4 +11,4 @@ module.exports = async function ({
     });
 };
 
-module.exports.tags = ["Bomb"];
+module.exports.tags = ['Bomb'];

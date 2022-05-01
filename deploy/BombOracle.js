@@ -7,7 +7,7 @@ module.exports = async function ({
 
     const { deployer, dev } = await getNamedAccounts();
 
-    const bomb = await ethers.getContract("Bomb");
+    const bomb = await ethers.getContract("SBomb");
     //  testnet
     //const btcAddress = "0x8BaBbB98678facC7342735486C851ABD7A0d17Ca";
     // mainnet
@@ -16,7 +16,7 @@ module.exports = async function ({
     //testnet 
     //const pairAddress = "0x742957Dd7b4D4bB7177CF63B61Fd5f0f050Ebaa4";
     //mainnet
-    pairAddress = "0x84392649eb0bC1c1532F2180E58Bae4E1dAbd8D6"
+    pairAddress = "0x6EEaD0D8D62be08d32B0Cbe7bB65193FcB7aaD9c"
 
     await deploy("TaxOracle", {
         from: deployer,

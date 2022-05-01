@@ -23,7 +23,6 @@ export interface BombGenesisRewardPoolInterface extends utils.Interface {
     "add(uint256,address,bool,uint256)": FunctionFragment;
     "bomb()": FunctionFragment;
     "bombPerSecond()": FunctionFragment;
-    "cake()": FunctionFragment;
     "deposit(uint256,uint256)": FunctionFragment;
     "emergencyWithdraw(uint256)": FunctionFragment;
     "getGeneratedReward(uint256,uint256)": FunctionFragment;
@@ -56,7 +55,6 @@ export interface BombGenesisRewardPoolInterface extends utils.Interface {
     functionFragment: "bombPerSecond",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "cake", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "deposit",
     values: [BigNumberish, BigNumberish]
@@ -130,7 +128,6 @@ export interface BombGenesisRewardPoolInterface extends utils.Interface {
     functionFragment: "bombPerSecond",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "cake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deposit", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "emergencyWithdraw",
@@ -262,8 +259,6 @@ export interface BombGenesisRewardPool extends BaseContract {
 
     bombPerSecond(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    cake(overrides?: CallOverrides): Promise<[string]>;
-
     deposit(
       _pid: BigNumberish,
       _amount: BigNumberish,
@@ -366,8 +361,6 @@ export interface BombGenesisRewardPool extends BaseContract {
 
   bombPerSecond(overrides?: CallOverrides): Promise<BigNumber>;
 
-  cake(overrides?: CallOverrides): Promise<string>;
-
   deposit(
     _pid: BigNumberish,
     _amount: BigNumberish,
@@ -469,8 +462,6 @@ export interface BombGenesisRewardPool extends BaseContract {
     bomb(overrides?: CallOverrides): Promise<string>;
 
     bombPerSecond(overrides?: CallOverrides): Promise<BigNumber>;
-
-    cake(overrides?: CallOverrides): Promise<string>;
 
     deposit(
       _pid: BigNumberish,
@@ -608,8 +599,6 @@ export interface BombGenesisRewardPool extends BaseContract {
 
     bombPerSecond(overrides?: CallOverrides): Promise<BigNumber>;
 
-    cake(overrides?: CallOverrides): Promise<BigNumber>;
-
     deposit(
       _pid: BigNumberish,
       _amount: BigNumberish,
@@ -699,8 +688,6 @@ export interface BombGenesisRewardPool extends BaseContract {
     bomb(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     bombPerSecond(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    cake(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     deposit(
       _pid: BigNumberish,

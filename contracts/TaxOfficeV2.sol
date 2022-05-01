@@ -25,8 +25,8 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
 contract TaxOfficeV2 is Operator {
     using SafeMath for uint256;
 
-    address public bomb = address(0x522348779DCb2911539e76A1042aA922F9C47Ee3);
-    address public weth = address(0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c);
+    address public bomb = address(0x643198856524Ae5D2590C659F0e64E0F7B2F4842);
+    address public btcb = address(0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c);
     address public uniRouter = address(0x10ED43C718714eb63d5aA57B78B54704E256024E);
 
     mapping(address => bool) public taxExclusionEnabled;

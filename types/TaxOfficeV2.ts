@@ -23,6 +23,7 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     "addLiquidityETHTaxFree(uint256,uint256,uint256)": FunctionFragment;
     "addLiquidityTaxFree(address,uint256,uint256,uint256,uint256)": FunctionFragment;
     "bomb()": FunctionFragment;
+    "btcb()": FunctionFragment;
     "disableAutoCalculateTax()": FunctionFragment;
     "enableAutoCalculateTax()": FunctionFragment;
     "excludeAddressFromTax(address)": FunctionFragment;
@@ -45,7 +46,6 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
     "transferTaxOffice(address)": FunctionFragment;
     "uniRouter()": FunctionFragment;
-    "weth()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -57,6 +57,7 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     values: [string, BigNumberish, BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "bomb", values?: undefined): string;
+  encodeFunctionData(functionFragment: "btcb", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "disableAutoCalculateTax",
     values?: undefined
@@ -133,7 +134,6 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(functionFragment: "uniRouter", values?: undefined): string;
-  encodeFunctionData(functionFragment: "weth", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "addLiquidityETHTaxFree",
@@ -144,6 +144,7 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "bomb", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "btcb", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "disableAutoCalculateTax",
     data: BytesLike
@@ -214,7 +215,6 @@ export interface TaxOfficeV2Interface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "uniRouter", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "weth", data: BytesLike): Result;
 
   events: {
     "OperatorTransferred(address,address)": EventFragment;
@@ -285,6 +285,8 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<ContractTransaction>;
 
     bomb(overrides?: CallOverrides): Promise<[string]>;
+
+    btcb(overrides?: CallOverrides): Promise<[string]>;
 
     disableAutoCalculateTax(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -384,8 +386,6 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<ContractTransaction>;
 
     uniRouter(overrides?: CallOverrides): Promise<[string]>;
-
-    weth(overrides?: CallOverrides): Promise<[string]>;
   };
 
   addLiquidityETHTaxFree(
@@ -405,6 +405,8 @@ export interface TaxOfficeV2 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   bomb(overrides?: CallOverrides): Promise<string>;
+
+  btcb(overrides?: CallOverrides): Promise<string>;
 
   disableAutoCalculateTax(
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -505,8 +507,6 @@ export interface TaxOfficeV2 extends BaseContract {
 
   uniRouter(overrides?: CallOverrides): Promise<string>;
 
-  weth(overrides?: CallOverrides): Promise<string>;
-
   callStatic: {
     addLiquidityETHTaxFree(
       amtBomb: BigNumberish,
@@ -525,6 +525,8 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
     bomb(overrides?: CallOverrides): Promise<string>;
+
+    btcb(overrides?: CallOverrides): Promise<string>;
 
     disableAutoCalculateTax(overrides?: CallOverrides): Promise<void>;
 
@@ -616,8 +618,6 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<void>;
 
     uniRouter(overrides?: CallOverrides): Promise<string>;
-
-    weth(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -658,6 +658,8 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<BigNumber>;
 
     bomb(overrides?: CallOverrides): Promise<BigNumber>;
+
+    btcb(overrides?: CallOverrides): Promise<BigNumber>;
 
     disableAutoCalculateTax(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -757,8 +759,6 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<BigNumber>;
 
     uniRouter(overrides?: CallOverrides): Promise<BigNumber>;
-
-    weth(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -779,6 +779,8 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     bomb(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    btcb(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     disableAutoCalculateTax(
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -878,7 +880,5 @@ export interface TaxOfficeV2 extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     uniRouter(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    weth(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

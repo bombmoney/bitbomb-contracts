@@ -35,7 +35,7 @@ contract Treasury is ContractGuard {
 
     /* ========= CONSTANT VARIABLES ======== */
 
-    uint256 public constant PERIOD = 6 hours;
+    uint256 public constant PERIOD = 8 hours;
 
     /* ========== STATE VARIABLES ========== */
 
@@ -52,8 +52,8 @@ contract Treasury is ContractGuard {
 
     // exclusions from total supply
     address[] public excludedFromTotalSupply = [
-        address(0xB7e1E341b2CBCc7d1EdF4DC6E5e962aE5C621ca5), // BombGenesisPool
-        address(0x04b79c851ed1A36549C6151189c79EC0eaBca745) // new BombRewardPool
+        address(0xbc0BC07A7e05b9a11A8e504FC29eb49D08445475), // BombGenesisPool
+        address(0x6E6BB04f91C928FBdC7f036462B0474107d86ef1) // new BombRewardPool
     ];
 
     // core components
@@ -190,7 +190,7 @@ contract Treasury is ContractGuard {
             uint256 _bondSupply = IERC20(bbond).totalSupply();
             if (_bondMaxSupply > _bondSupply) {
                 uint256 _maxMintableBond = _bondMaxSupply.sub(_bondSupply);
-                uint256 _maxBurnableBomb = _maxMintableBond.mul(_bombPrice).div(1e14);
+                uint256 _maxBurnableBomb = _maxMintableBond.mul(_bombPrice).div(1e13);
                 _burnableBombLeft = Math.min(epochSupplyContractionLeft, _maxBurnableBomb);
             }
         }
@@ -202,7 +202,7 @@ contract Treasury is ContractGuard {
             uint256 _totalBomb = IERC20(bomb).balanceOf(address(this));
             uint256 _rate = getBondPremiumRate();
             if (_rate > 0) {
-                _redeemableBonds = _totalBomb.mul(1e14).div(_rate);
+                _redeemableBonds = _totalBomb.mul(1e13).div(_rate);
             }
         }
     }
@@ -259,25 +259,25 @@ contract Treasury is ContractGuard {
         boardroom = _boardroom;
         startTime = _startTime;
 
-        bombPriceOne = 10**14; // This is to allow a PEG of 10,000 BOMB per BTC
+        bombPriceOne = 10**13; // This is to allow a PEG of 10,000 BOMB per BTC
         bombPriceCeiling = bombPriceOne.mul(101).div(100);
 
         // Dynamic max expansion percent
-        supplyTiers = [0 ether, 500000 ether, 1000000 ether, 1500000 ether, 2000000 ether, 5000000 ether, 10000000 ether, 20000000 ether, 50000000 ether];
-        maxExpansionTiers = [450, 400, 350, 300, 250, 200, 150, 125, 100];
+        supplyTiers = [0 ether, 5000000 ether, 10000000 ether, 20000000 ether, 50000000 ether, 100000000 ether];
+        maxExpansionTiers = [250, 200, 175, 150, 125, 100];
 
-        maxSupplyExpansionPercent = 400; // Upto 4.0% supply for expansion
+        maxSupplyExpansionPercent = 450; // Upto 4.5% supply for expansion
 
         bondDepletionFloorPercent = 10000; // 100% of Bond supply for depletion floor
         seigniorageExpansionFloorPercent = 3500; // At least 35% of expansion reserved for boardroom
         maxSupplyContractionPercent = 300; // Upto 3.0% supply for contraction (to burn BOMB and mint tBOND)
-        maxDebtRatioPercent = 4500; // Upto 35% supply of tBOND to purchase
+        maxDebtRatioPercent = 3500; // Upto 35% supply of tBOND to purchase
 
         premiumThreshold = 110;
         premiumPercent = 7000;
 
         // First 28 epochs with 4.5% expansion
-        bootstrapEpochs = 0;
+        bootstrapEpochs = 21;
         bootstrapSupplyExpansionPercent = 450;
 
         // set seigniorageSaved to it's balance
@@ -360,9 +360,9 @@ contract Treasury is ContractGuard {
         uint256 _devFundSharedPercent
     ) external onlyOperator {
         require(_daoFund != address(0), "zero");
-        require(_daoFundSharedPercent <= 3000, "out of range"); // <= 30%
+        require(_daoFundSharedPercent <= 4000, "out of range"); // <= 40%
         require(_devFund != address(0), "zero");
-        require(_devFundSharedPercent <= 1000, "out of range"); // <= 10%
+        require(_devFundSharedPercent <= 2000, "out of range"); // <= 20%
         daoFund = _daoFund;
         daoFundSharedPercent = _daoFundSharedPercent;
         devFund = _devFund;
@@ -429,7 +429,7 @@ contract Treasury is ContractGuard {
         uint256 _rate = getBondDiscountRate();
         require(_rate > 0, "Treasury: invalid bond rate");
 
-        uint256 _bondAmount = _bombAmount.mul(_rate).div(1e14);
+        uint256 _bondAmount = _bombAmount.mul(_rate).div(1e13);
         uint256 bombSupply = getBombCirculatingSupply();
         uint256 newBondSupply = IERC20(bbond).totalSupply().add(_bondAmount);
         require(newBondSupply <= bombSupply.mul(maxDebtRatioPercent).div(10000), "over max debt ratio");
@@ -456,7 +456,7 @@ contract Treasury is ContractGuard {
         uint256 _rate = getBondPremiumRate();
         require(_rate > 0, "Treasury: invalid bond rate");
 
-        uint256 _bombAmount = _bondAmount.mul(_rate).div(1e14);
+        uint256 _bombAmount = _bondAmount.mul(_rate).div(1e13);
         require(IERC20(bomb).balanceOf(address(this)) >= _bombAmount, "Treasury: treasury has no more budget");
 
         seigniorageSaved = seigniorageSaved.sub(Math.min(seigniorageSaved, _bombAmount));
@@ -518,16 +518,16 @@ contract Treasury is ContractGuard {
                 uint256 _percentage = previousEpochBombPrice.sub(bombPriceOne);
                 uint256 _savedForBond;
                 uint256 _savedForBoardroom;
-                uint256 _mse = _calculateMaxSupplyExpansionPercent(bombSupply).mul(1e14);
+                uint256 _mse = _calculateMaxSupplyExpansionPercent(bombSupply).mul(1e13);
                 if (_percentage > _mse) {
                     _percentage = _mse;
                 }
                 if (seigniorageSaved >= bondSupply.mul(bondDepletionFloorPercent).div(10000)) {
                     // saved enough to pay debt, mint as usual rate
-                    _savedForBoardroom = bombSupply.mul(_percentage).div(1e14);
+                    _savedForBoardroom = bombSupply.mul(_percentage).div(1e13);
                 } else {
                     // have not saved enough to pay debt, mint more
-                    uint256 _seigniorage = bombSupply.mul(_percentage).div(1e14);
+                    uint256 _seigniorage = bombSupply.mul(_percentage).div(1e13);
                     _savedForBoardroom = _seigniorage.mul(seigniorageExpansionFloorPercent).div(10000);
                     _savedForBond = _seigniorage.sub(_savedForBoardroom);
                     if (mintingFactorForPayingDebt > 0) {

@@ -1,7 +1,7 @@
 {
-  "name": "bomb-contracts",
+  "name": "contracts",
   "version": "1.0.0",
-  "repository": "https://github.com/bombmoney/bomb-contracts.git",
+  "repository": "https://github.com/sbombmoney/contracts.git",
   "types": "./types/index.ts",
   "author": "Aaron <aaron@1coin.io>",
   "license": "MIT",

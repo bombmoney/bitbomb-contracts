@@ -21,15 +21,17 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
                                                                                            \$$$$$$  |
     http://bomb.money                                                                      \______/ 
 */
-contract BShare is ERC20Burnable, Operator {
+contract SBShare is ERC20Burnable, Operator {
     using SafeMath for uint256;
 
-    // TOTAL MAX SUPPLY = 70,000 tSHAREs
-    uint256 public constant FARMING_POOL_REWARD_ALLOCATION = 59500 ether;
-    uint256 public constant COMMUNITY_FUND_POOL_ALLOCATION = 5500 ether;
-    uint256 public constant DEV_FUND_POOL_ALLOCATION = 5000 ether;
+    // TOTAL MAX SUPPLY = 110,000 SBS
+    uint256 public constant FARMING_POOL_REWARD_ALLOCATION = 40000 ether;
+    uint256 public constant SPECIAL_POOL_REWARD_ALLOCATION = 60000 ether;
 
-    uint256 public constant VESTING_DURATION = 365 days;
+    uint256 public constant COMMUNITY_FUND_POOL_ALLOCATION = 5000 ether;
+    uint256 public constant DEV_FUND_POOL_ALLOCATION = 4900 ether;
+
+    uint256 public constant VESTING_DURATION = 730 days;
     uint256 public startTime;
     uint256 public endTime;
 
@@ -44,8 +46,12 @@ contract BShare is ERC20Burnable, Operator {
 
     bool public rewardPoolDistributed = false;
 
-    constructor(uint256 _startTime, address _communityFund, address _devFund) public ERC20("BSHARE", "BSHARE") {
-        _mint(msg.sender, 1 ether); // mint 1 BOMB Share for initial pools deployment
+    constructor(
+        uint256 _startTime,
+        address _communityFund,
+        address _devFund
+    ) public ERC20("SBOMB SHARE", "SBS") {
+        _mint(msg.sender, 100 ether); // mint 1 BOMB Share for initial pools deployment
 
         startTime = _startTime;
         endTime = startTime + VESTING_DURATION;
@@ -107,11 +113,13 @@ contract BShare is ERC20Burnable, Operator {
     /**
      * @notice distribute to reward pool (only once)
      */
-    function distributeReward(address _farmingIncentiveFund) external onlyOperator {
+    function distributeReward(address _farmingIncentiveFund, address _specialIncentiveFund) external onlyOperator {
         require(!rewardPoolDistributed, "only can distribute once");
         require(_farmingIncentiveFund != address(0), "!_farmingIncentiveFund");
+        require(_specialIncentiveFund != address(0), "!_specialIncentiveFund");
         rewardPoolDistributed = true;
         _mint(_farmingIncentiveFund, FARMING_POOL_REWARD_ALLOCATION);
+        _mint(_specialIncentiveFund, SPECIAL_POOL_REWARD_ALLOCATION);
     }
 
     function burn(uint256 amount) public override {

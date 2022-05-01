@@ -1,22 +1,4 @@
-// Sources flattened with hardhat v2.6.8 https://hardhat.org
-
 // SPDX-License-Identifier: MIT
-
-/*
-
-$$$$$$$\   $$$$$$\  $$\      $$\ $$$$$$$\                                                            
-$$  __$$\ $$  __$$\ $$$\    $$$ |$$  __$$\                                                           
-$$ |  $$ |$$ /  $$ |$$$$\  $$$$ |$$ |  $$ |    $$$$$$\$$$$\   $$$$$$\  $$$$$$$\   $$$$$$\  $$\   $$\ 
-$$$$$$$\ |$$ |  $$ |$$\$$\$$ $$ |$$$$$$$\ |    $$  _$$  _$$\ $$  __$$\ $$  __$$\ $$  __$$\ $$ |  $$ |
-$$  __$$\ $$ |  $$ |$$ \$$$  $$ |$$  __$$\     $$ / $$ / $$ |$$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  $$ |
-$$ |  $$ |$$ |  $$ |$$ |\$  /$$ |$$ |  $$ |    $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |
-$$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ |\$$$$$$$\ \$$$$$$$ |
-\_______/  \______/ \__|     \__|\_______/ \__|\__| \__| \__| \______/ \__|  \__| \_______| \____$$ |
-                                                                                           $$\   $$ |
-                                                                                           \$$$$$$  |
-    http://bomb.money                                                                      \______/ 
-*/
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -41,10 +23,7 @@ abstract contract Context {
     }
 }
 
-
 // File @openzeppelin/contracts/token/ERC20/IERC20.sol@v3.4.2
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -105,7 +84,11 @@ interface IERC20 {
      *
      * Emits a {Transfer} event.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) external returns (bool);
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -122,10 +105,7 @@ interface IERC20 {
     event Approval(address indexed owner, address indexed spender, uint256 value);
 }
 
-
 // File @openzeppelin/contracts/math/SafeMath.sol@v3.4.2
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -294,7 +274,11 @@ library SafeMath {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function sub(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b <= a, errorMessage);
         return a - b;
     }
@@ -314,7 +298,11 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function div(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function div(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         return a / b;
     }
@@ -334,20 +322,19 @@ library SafeMath {
      *
      * - The divisor cannot be zero.
      */
-    function mod(uint256 a, uint256 b, string memory errorMessage) internal pure returns (uint256) {
+    function mod(
+        uint256 a,
+        uint256 b,
+        string memory errorMessage
+    ) internal pure returns (uint256) {
         require(b > 0, errorMessage);
         return a % b;
     }
 }
 
-
 // File @openzeppelin/contracts/token/ERC20/ERC20.sol@v3.4.2
 
-
-
 pragma solidity >=0.6.0 <0.8.0;
-
-
 
 /**
  * @dev Implementation of the {IERC20} interface.
@@ -376,9 +363,9 @@ pragma solidity >=0.6.0 <0.8.0;
 contract ERC20 is Context, IERC20 {
     using SafeMath for uint256;
 
-    mapping (address => uint256) private _balances;
+    mapping(address => uint256) private _balances;
 
-    mapping (address => mapping (address => uint256)) private _allowances;
+    mapping(address => mapping(address => uint256)) private _allowances;
 
     uint256 private _totalSupply;
 
@@ -395,7 +382,7 @@ contract ERC20 is Context, IERC20 {
      * All three of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor (string memory name_, string memory symbol_) public {
+    constructor(string memory name_, string memory symbol_) public {
         _name = name_;
         _symbol = symbol_;
         _decimals = 18;
@@ -492,7 +479,11 @@ contract ERC20 is Context, IERC20 {
      * - the caller must have allowance for ``sender``'s tokens of at least
      * `amount`.
      */
-    function transferFrom(address sender, address recipient, uint256 amount) public virtual override returns (bool) {
+    function transferFrom(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) public virtual override returns (bool) {
         _transfer(sender, recipient, amount);
         _approve(sender, _msgSender(), _allowances[sender][_msgSender()].sub(amount, "ERC20: transfer amount exceeds allowance"));
         return true;
@@ -548,7 +539,11 @@ contract ERC20 is Context, IERC20 {
      * - `recipient` cannot be the zero address.
      * - `sender` must have a balance of at least `amount`.
      */
-    function _transfer(address sender, address recipient, uint256 amount) internal virtual {
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal virtual {
         require(sender != address(0), "ERC20: transfer from the zero address");
         require(recipient != address(0), "ERC20: transfer to the zero address");
 
@@ -612,7 +607,11 @@ contract ERC20 is Context, IERC20 {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve(address owner, address spender, uint256 amount) internal virtual {
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual {
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
 
@@ -645,16 +644,16 @@ contract ERC20 is Context, IERC20 {
      *
      * To learn more about hooks, head to xref:ROOT:extending-contracts.adoc#using-hooks[Using Hooks].
      */
-    function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 amount
+    ) internal virtual {}
 }
-
 
 // File @openzeppelin/contracts/token/ERC20/ERC20Burnable.sol@v3.4.2
 
-
-
 pragma solidity >=0.6.0 <0.8.0;
-
 
 /**
  * @dev Extension of {ERC20} that allows token holders to destroy both their own
@@ -692,10 +691,7 @@ abstract contract ERC20Burnable is Context, ERC20 {
     }
 }
 
-
 // File @openzeppelin/contracts/math/Math.sol@v3.4.2
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -723,14 +719,11 @@ library Math {
      */
     function average(uint256 a, uint256 b) internal pure returns (uint256) {
         // (a + b) / 2 can overflow, so we distribute
-        return (a / 2) + (b / 2) + ((a % 2 + b % 2) / 2);
+        return (a / 2) + (b / 2) + (((a % 2) + (b % 2)) / 2);
     }
 }
 
-
 // File contracts/lib/SafeMath8.sol
-
-
 
 pragma solidity 0.6.12;
 
@@ -789,7 +782,11 @@ library SafeMath8 {
      *
      * - Subtraction cannot overflow.
      */
-    function sub(uint8 a, uint8 b, string memory errorMessage) internal pure returns (uint8) {
+    function sub(
+        uint8 a,
+        uint8 b,
+        string memory errorMessage
+    ) internal pure returns (uint8) {
         require(b <= a, errorMessage);
         uint8 c = a - b;
 
@@ -848,7 +845,11 @@ library SafeMath8 {
      *
      * - The divisor cannot be zero.
      */
-    function div(uint8 a, uint8 b, string memory errorMessage) internal pure returns (uint8) {
+    function div(
+        uint8 a,
+        uint8 b,
+        string memory errorMessage
+    ) internal pure returns (uint8) {
         require(b > 0, errorMessage);
         uint8 c = a / b;
         // assert(a == b * c + a % b); // There is no case in which this doesn't hold
@@ -884,23 +885,21 @@ library SafeMath8 {
      *
      * - The divisor cannot be zero.
      */
-    function mod(uint8 a, uint8 b, string memory errorMessage) internal pure returns (uint8) {
+    function mod(
+        uint8 a,
+        uint8 b,
+        string memory errorMessage
+    ) internal pure returns (uint8) {
         require(b != 0, errorMessage);
         return a % b;
     }
 }
 
-
 // File @openzeppelin/contracts/GSN/Context.sol@v3.4.2
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
-
 // File @openzeppelin/contracts/access/Ownable.sol@v3.4.2
-
-
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -924,7 +923,7 @@ abstract contract Ownable is Context {
     /**
      * @dev Initializes the contract setting the deployer as the initial owner.
      */
-    constructor () internal {
+    constructor() internal {
         address msgSender = _msgSender();
         _owner = msgSender;
         emit OwnershipTransferred(address(0), msgSender);
@@ -968,13 +967,9 @@ abstract contract Ownable is Context {
     }
 }
 
-
 // File contracts/owner/Operator.sol
 
-
-
 pragma solidity 0.6.12;
-
 
 contract Operator is Context, Ownable {
     address private _operator;
@@ -1010,10 +1005,7 @@ contract Operator is Context, Ownable {
     }
 }
 
-
 // File contracts/interfaces/IOracle.sol
-
-
 
 pragma solidity 0.6.12;
 
@@ -1025,27 +1017,34 @@ interface IOracle {
     function twap(address _token, uint256 _amountIn) external view returns (uint144 _amountOut);
 }
 
-
-// File contracts/Bomb.sol
-
-
+// File contracts/SBomb.sol
 
 pragma solidity 0.6.12;
 
+/*
 
-
-
-
-contract Bomb is ERC20Burnable, Operator {
+$$$$$$$\   $$$$$$\  $$\      $$\ $$$$$$$\                                                            
+$$  __$$\ $$  __$$\ $$$\    $$$ |$$  __$$\                                                           
+$$ |  $$ |$$ /  $$ |$$$$\  $$$$ |$$ |  $$ |    $$$$$$\$$$$\   $$$$$$\  $$$$$$$\   $$$$$$\  $$\   $$\ 
+$$$$$$$\ |$$ |  $$ |$$\$$\$$ $$ |$$$$$$$\ |    $$  _$$  _$$\ $$  __$$\ $$  __$$\ $$  __$$\ $$ |  $$ |
+$$  __$$\ $$ |  $$ |$$ \$$$  $$ |$$  __$$\     $$ / $$ / $$ |$$ /  $$ |$$ |  $$ |$$$$$$$$ |$$ |  $$ |
+$$ |  $$ |$$ |  $$ |$$ |\$  /$$ |$$ |  $$ |    $$ | $$ | $$ |$$ |  $$ |$$ |  $$ |$$   ____|$$ |  $$ |
+$$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ |\$$$$$$$\ \$$$$$$$ |
+\_______/  \______/ \__|     \__|\_______/ \__|\__| \__| \__| \______/ \__|  \__| \_______| \____$$ |
+                                                                                           $$\   $$ |
+                                                                                           \$$$$$$  |
+    http://bomb.money                                                                      \______/ 
+*/
+contract SBomb is ERC20Burnable, Operator {
     using SafeMath8 for uint8;
     using SafeMath for uint256;
 
     // Initial distribution for the first 24h genesis pools
-    uint256 public constant INITIAL_GENESIS_POOL_DISTRIBUTION = 11000 ether;
+    uint256 public constant INITIAL_GENESIS_POOL_DISTRIBUTION = 10000 ether;
     // Initial distribution for the day 2-5 BOMB-WETH LP -> BOMB pool
-    uint256 public constant INITIAL_BOMB_POOL_DISTRIBUTION = 140000 ether;
+    uint256 public constant INITIAL_BOMB_POOL_DISTRIBUTION = 35000 ether;
     // Distribution for airdrops wallet
-    uint256 public constant INITIAL_AIRDROP_WALLET_DISTRIBUTION = 9000 ether;
+    uint256 public constant INITIAL_AIRDROP_WALLET_DISTRIBUTION = 5000 ether;
 
     // Have the rewards been distributed to the pools
     bool public rewardPoolDistributed = false;
@@ -1088,14 +1087,14 @@ contract Bomb is ERC20Burnable, Operator {
     /**
      * @notice Constructs the BOMB ERC-20 contract.
      */
-    constructor(uint256 _taxRate, address _taxCollectorAddress) public ERC20("bomb.money", "BOMB") {
+    constructor(uint256 _taxRate, address _taxCollectorAddress) public ERC20("sbomb.com", "SBOMB") {
         // Mints 1 BOMB to contract creator for initial pool setup
         require(_taxRate < 10000, "tax equal or bigger to 100%");
         require(_taxCollectorAddress != address(0), "tax collector address must be non-zero address");
 
         excludeAddress(address(this));
 
-        _mint(msg.sender, 1 ether);
+        _mint(msg.sender, 1000 ether);
         taxRate = _taxRate;
         taxCollectorAddress = _taxCollectorAddress;
     }

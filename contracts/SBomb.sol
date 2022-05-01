@@ -23,16 +23,16 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
                                                                                            \$$$$$$  |
     http://bomb.money                                                                      \______/ 
 */
-contract Bomb is ERC20Burnable, Operator {
+contract SBomb is ERC20Burnable, Operator {
     using SafeMath8 for uint8;
     using SafeMath for uint256;
 
     // Initial distribution for the first 24h genesis pools
-    uint256 public constant INITIAL_GENESIS_POOL_DISTRIBUTION = 11000 ether;
-    // Initial distribution for the day 2-5 BOMB-WETH LP -> BOMB pool
+    uint256 public constant INITIAL_GENESIS_POOL_DISTRIBUTION = 56000 ether;
+    // Initial distribution for the day 2-5 SBOMB-BTCB LP -> BOMB pool
     uint256 public constant INITIAL_BOMB_POOL_DISTRIBUTION = 140000 ether;
     // Distribution for airdrops wallet
-    uint256 public constant INITIAL_AIRDROP_WALLET_DISTRIBUTION = 9000 ether;
+    uint256 public constant INITIAL_AIRDROP_WALLET_DISTRIBUTION = 300000 ether;
 
     // Have the rewards been distributed to the pools
     bool public rewardPoolDistributed = false;
@@ -75,14 +75,14 @@ contract Bomb is ERC20Burnable, Operator {
     /**
      * @notice Constructs the BOMB ERC-20 contract.
      */
-    constructor(uint256 _taxRate, address _taxCollectorAddress) public ERC20("bomb.money", "BOMB") {
+    constructor(uint256 _taxRate, address _taxCollectorAddress) public ERC20("sbomb.com", "SBOMB") {
         // Mints 1 BOMB to contract creator for initial pool setup
         require(_taxRate < 10000, "tax equal or bigger to 100%");
         require(_taxCollectorAddress != address(0), "tax collector address must be non-zero address");
 
         excludeAddress(address(this));
 
-        _mint(msg.sender, 1 ether);
+        _mint(msg.sender, 4000 ether);
         taxRate = _taxRate;
         taxCollectorAddress = _taxCollectorAddress;
     }

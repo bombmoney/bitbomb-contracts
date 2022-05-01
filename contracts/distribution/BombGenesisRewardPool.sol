@@ -31,7 +31,6 @@ contract BombGenesisRewardPool {
     }
 
     IERC20 public bomb;
-    address public cake;
 
     // Info of each pool.
     PoolInfo[] public poolInfo;
@@ -55,9 +54,9 @@ contract BombGenesisRewardPool {
     // END TESTNET
 
     // MAINNET
-    uint256 public bombPerSecond = 0.11574 ether; // 10000 BOMB / (24h * 60min * 60s)
+    uint256 public bombPerSecond = 0.648148148 ether; // 14000 BOMB / (24h * 60min * 60s)
     uint256 public runningTime = 1 days; // 1 days
-    uint256 public constant TOTAL_REWARDS = 10000 ether;
+    uint256 public constant TOTAL_REWARDS = 56000 ether;
     // END MAINNET
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
@@ -67,12 +66,10 @@ contract BombGenesisRewardPool {
 
     constructor(
         address _bomb,
-        address _cake,
         uint256 _poolStartTime
     ) public {
         require(block.timestamp < _poolStartTime, "late");
         if (_bomb != address(0)) bomb = IERC20(_bomb);
-        if (_cake != address(0)) cake = _cake;
         poolStartTime = _poolStartTime;
         poolEndTime = poolStartTime + runningTime;
         operator = msg.sender;
@@ -207,11 +204,7 @@ contract BombGenesisRewardPool {
         }
         if (_amount > 0) {
             pool.token.safeTransferFrom(_sender, address(this), _amount);
-            if (address(pool.token) == cake) {
-                user.amount = user.amount.add(_amount.mul(9900).div(10000));
-            } else {
                 user.amount = user.amount.add(_amount);
-            }
         }
         user.rewardDebt = user.amount.mul(pool.accBombPerShare).div(1e18);
         emit Deposit(_sender, _pid, _amount);

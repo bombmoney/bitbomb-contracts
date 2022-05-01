@@ -20,11 +20,11 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
                                                                                            \$$$$$$  |
     http://bomb.money                                                                      \______/ 
 */
-contract BBond is ERC20Burnable, Operator {
+contract SBBond is ERC20Burnable, Operator {
     /**
      * @notice Constructs the BOMB Bond ERC-20 contract.
      */
-    constructor() public ERC20("BBOND", "BBOND") {}
+    constructor() public ERC20("SBOMB BOND", "SBB") {}
 
     /**
      * @notice Operator mints basis bonds to a recipient

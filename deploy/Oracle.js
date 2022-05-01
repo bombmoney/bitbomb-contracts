@@ -7,7 +7,7 @@ module.exports = async function ({
 
     const { deployer, dev } = await getNamedAccounts();
 
-    const bomb = await ethers.getContract("Bomb");
+    const bomb = await ethers.getContract("SBomb");
 
 
     //testnet
@@ -15,11 +15,11 @@ module.exports = async function ({
 
 
     // pancake
-    pairAddress = "0x84392649eb0bC1c1532F2180E58Bae4E1dAbd8D6";
+    pairAddress = "0x6EEaD0D8D62be08d32B0Cbe7bB65193FcB7aaD9c";
 
     await deploy("Oracle", {
         from: deployer,
-        args: [pairAddress, 21600, 1638572400],
+        args: [pairAddress, 28800, 1653955200],
         log: true,
         deterministicDeployment: false,
     });

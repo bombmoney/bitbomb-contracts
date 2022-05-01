@@ -1,18 +1,14 @@
+module.exports = async function ({getNamedAccounts, deployments}) {
+    const {deploy} = deployments;
 
-module.exports = async function ({
-    getNamedAccounts,
-    deployments,
-}) {
-    const { deploy } = deployments;
+    const {deployer, dev} = await getNamedAccounts();
 
-    const { deployer, dev } = await getNamedAccounts();
-
-    await deploy("BShare", {
+    await deploy('SBShare', {
         from: deployer,
-        args: [1638334800, dev, dev],
+        args: [1653955200, dev, dev],
         log: true,
         deterministicDeployment: false,
     });
 };
 
-module.exports.tags = ["BShare"];
+module.exports.tags = ['BShare'];

@@ -7,11 +7,11 @@ module.exports = async function ({
 
     const { deployer, dev } = await getNamedAccounts();
 
-    const bomb = await ethers.getContract("Bomb");
+    const bomb = await ethers.getContract("SBomb");
 
     await deploy("BombRewardPool", {
         from: deployer,
-        args: [bomb.address, 1637535600], // Should be 1 day after Genesis pool starts
+        args: [bomb.address, 1653609600], // Should be 1 day after Genesis pool starts
         log: true,
         deterministicDeployment: false,
     });

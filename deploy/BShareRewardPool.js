@@ -7,11 +7,11 @@ module.exports = async function ({
 
     const { deployer, dev } = await getNamedAccounts();
 
-    const bshare = await ethers.getContract("BShare");
+    const bshare = await ethers.getContract("SBShare");
 
-    await deploy("BShareRewardPool", {
+    await deploy("SBSFarmRewardPool", {
         from: deployer,
-        args: [bshare.address, 1637881200], // 6 days after genesis
+        args: [bshare.address, 1653955200], // 6 days after genesis
         log: true,
         deterministicDeployment: false,
     });
