@@ -18,4 +18,4 @@ module.exports = async function ({
 };
 
 module.exports.tags = ["BShareRewardPool"];
-// module.exports.dependencies = ["BShare"];
+//module.exports.dependencies = ["BShare"];
