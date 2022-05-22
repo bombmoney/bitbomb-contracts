@@ -9,37 +9,6 @@ import "./utils/ContractGuard.sol";
 import "./interfaces/IBasisAsset.sol";
 import "./interfaces/ITreasury.sol";
 
-contract ShareWrapper {
-    using SafeMath for uint256;
-    using SafeERC20 for IERC20;
-
-    IERC20 public share;
-
-    uint256 private _totalSupply;
-    mapping(address => uint256) private _balances;
-
-    function totalSupply() public view returns (uint256) {
-        return _totalSupply;
-    }
-
-    function balanceOf(address account) public view returns (uint256) {
-        return _balances[account];
-    }
-
-    function stake(uint256 amount) public virtual {
-        _totalSupply = _totalSupply.add(amount);
-        _balances[msg.sender] = _balances[msg.sender].add(amount);
-        share.safeTransferFrom(msg.sender, address(this), amount);
-    }
-
-    function withdraw(uint256 amount) public virtual {
-        uint256 memberShare = _balances[msg.sender];
-        require(memberShare >= amount, "Boardroom: withdraw request greater than staked amount");
-        _totalSupply = _totalSupply.sub(amount);
-        _balances[msg.sender] = memberShare.sub(amount);
-        share.safeTransfer(msg.sender, amount);
-    }
-}
 
 /*
 
@@ -55,7 +24,7 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
                                                                                            \$$$$$$  |
     http://bomb.money                                                                      \______/ 
 */
-contract Boardroom is ShareWrapper, ContractGuard {
+contract Boardroom is ContractGuard {
     using SafeERC20 for IERC20;
     using Address for address;
     using SafeMath for uint256;
@@ -76,13 +45,18 @@ contract Boardroom is ShareWrapper, ContractGuard {
 
     /* ========== STATE VARIABLES ========== */
 
+    IERC20 public share;
+
+    uint256 private _totalSupply;
+    mapping(address => uint256) private _balances;
+
     // governance
     address public operator;
 
     // flags
     bool public initialized = false;
 
-    IERC20 public bomb;
+    IERC20 public token;
     ITreasury public treasury;
 
     mapping(address => Memberseat) public members;
@@ -90,6 +64,10 @@ contract Boardroom is ShareWrapper, ContractGuard {
 
     uint256 public withdrawLockupEpochs;
     uint256 public rewardLockupEpochs;
+
+    address public reserveFund;
+    uint256 public withdrawFee;
+    uint256 public stakeFee;
 
     /* ========== EVENTS ========== */
 
@@ -129,19 +107,22 @@ contract Boardroom is ShareWrapper, ContractGuard {
     /* ========== GOVERNANCE ========== */
 
     function initialize(
-        IERC20 _bomb,
+        IERC20 _token,
         IERC20 _share,
         ITreasury _treasury
     ) public notInitialized {
-        bomb = _bomb;
+        token = _token;
         share = _share;
         treasury = _treasury;
+
+        stakeFee = 2;
+        withdrawFee = 2;
 
         BoardroomSnapshot memory genesisSnapshot = BoardroomSnapshot({time: block.number, rewardReceived: 0, rewardPerShare: 0});
         boardroomHistory.push(genesisSnapshot);
 
-        withdrawLockupEpochs = 6; // Lock for 6 epochs (36h) before release withdraw
-        rewardLockupEpochs = 3; // Lock for 3 epochs (18h) before release claimReward
+        withdrawLockupEpochs = 2; // Lock for 6 epochs (36h) before release withdraw
+        rewardLockupEpochs = 1; // Lock for 3 epochs (18h) before release claimReward
 
         initialized = true;
         operator = msg.sender;
@@ -153,15 +134,36 @@ contract Boardroom is ShareWrapper, ContractGuard {
     }
 
     function setLockUp(uint256 _withdrawLockupEpochs, uint256 _rewardLockupEpochs) external onlyOperator {
-        require(_withdrawLockupEpochs >= _rewardLockupEpochs && _withdrawLockupEpochs <= 56, "_withdrawLockupEpochs: out of range"); // <= 2 week
+        require(_withdrawLockupEpochs >= _rewardLockupEpochs && _withdrawLockupEpochs <= 42, "_withdrawLockupEpochs: out of range"); // <= 2 week
         withdrawLockupEpochs = _withdrawLockupEpochs;
         rewardLockupEpochs = _rewardLockupEpochs;
     }
 
+    function setReserveFund(address _reserveFund) external onlyOperator {
+        require(_reserveFund != address(0), "reserveFund address cannot be 0 address");
+        reserveFund = _reserveFund;
+    }
+
+    function setStakeFee(uint256 _stakeFee) external onlyOperator {
+        require(_stakeFee <= 5, "Max stake fee is 5%");
+        stakeFee = _stakeFee;
+    }
+
+    function setWithdrawFee(uint256 _withdrawFee) external onlyOperator {
+        require(_withdrawFee <= 20, "Max withdraw fee is 20%");
+        withdrawFee = _withdrawFee;
+    }
+
     /* ========== VIEW FUNCTIONS ========== */
+    function totalSupply() public view returns (uint256) {
+        return _totalSupply;
+    }
+
+    function balanceOf(address account) public view returns (uint256) {
+        return _balances[account];
+    }
 
     // =========== Snapshot getters
-
     function latestSnapshotIndex() public view returns (uint256) {
         return boardroomHistory.length.sub(1);
     }
@@ -194,8 +196,8 @@ contract Boardroom is ShareWrapper, ContractGuard {
         return treasury.nextEpochPoint();
     }
 
-    function getBombPrice() external view returns (uint256) {
-        return treasury.getBombPrice();
+    function getTokenPrice() external view returns (uint256) {
+        return treasury.getTokenPrice();
     }
 
     // =========== Member getters
@@ -213,20 +215,39 @@ contract Boardroom is ShareWrapper, ContractGuard {
 
     /* ========== MUTATIVE FUNCTIONS ========== */
 
-    function stake(uint256 amount) public override onlyOneBlock updateReward(msg.sender) {
+
+    function stake(uint256 amount) public onlyOneBlock updateReward(msg.sender) {
         require(amount > 0, "Boardroom: Cannot stake 0");
-        super.stake(amount);
+        share.safeTransferFrom(msg.sender, address(this), amount);
+        if (stakeFee > 0) {
+            uint256 feeAmount = amount.mul(stakeFee).div(100);
+            share.safeTransfer(reserveFund, feeAmount);
+            amount = amount.sub(feeAmount);
+        }
+        _totalSupply = _totalSupply.add(amount);
+        _balances[msg.sender] = _balances[msg.sender].add(amount);
         members[msg.sender].epochTimerStart = treasury.epoch(); // reset timer
         emit Staked(msg.sender, amount);
     }
 
-    function withdraw(uint256 amount) public override onlyOneBlock memberExists updateReward(msg.sender) {
+
+    function withdraw(uint256 amount) public onlyOneBlock memberExists updateReward(msg.sender) {
         require(amount > 0, "Boardroom: Cannot withdraw 0");
         require(members[msg.sender].epochTimerStart.add(withdrawLockupEpochs) <= treasury.epoch(), "Boardroom: still in withdraw lockup");
         claimReward();
-        super.withdraw(amount);
+        uint256 memberShare = _balances[msg.sender];
+        require(memberShare >= amount, "Boardroom: withdraw request greater than staked amount");
+        _totalSupply = _totalSupply.sub(amount);
+        _balances[msg.sender] = memberShare.sub(amount);
+        if (withdrawFee > 0) {
+            uint256 feeAmount = amount.mul(withdrawFee).div(100);
+            share.safeTransfer(reserveFund, feeAmount);
+            amount = amount.sub(feeAmount);
+        }
+        share.safeTransfer(msg.sender, amount);
         emit Withdrawn(msg.sender, amount);
     }
+
 
     function exit() external {
         withdraw(balanceOf(msg.sender));
@@ -238,7 +259,7 @@ contract Boardroom is ShareWrapper, ContractGuard {
             require(members[msg.sender].epochTimerStart.add(rewardLockupEpochs) <= treasury.epoch(), "Boardroom: still in reward lockup");
             members[msg.sender].epochTimerStart = treasury.epoch(); // reset timer
             members[msg.sender].rewardEarned = 0;
-            bomb.safeTransfer(msg.sender, reward);
+            token.safeTransfer(msg.sender, reward);
             emit RewardPaid(msg.sender, reward);
         }
     }
@@ -254,7 +275,7 @@ contract Boardroom is ShareWrapper, ContractGuard {
         BoardroomSnapshot memory newSnapshot = BoardroomSnapshot({time: block.number, rewardReceived: amount, rewardPerShare: nextRPS});
         boardroomHistory.push(newSnapshot);
 
-        bomb.safeTransferFrom(msg.sender, address(this), amount);
+        token.safeTransferFrom(msg.sender, address(this), amount);
         emit RewardAdded(msg.sender, amount);
     }
 
@@ -264,7 +285,7 @@ contract Boardroom is ShareWrapper, ContractGuard {
         address _to
     ) external onlyOperator {
         // do not allow to drain core tokens
-        require(address(_token) != address(bomb), "bomb");
+        require(address(_token) != address(token), "token");
         require(address(_token) != address(share), "share");
         _token.safeTransfer(_to, _amount);
     }

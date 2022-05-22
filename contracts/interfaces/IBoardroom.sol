@@ -15,9 +15,15 @@ interface IBoardroom {
 
     function nextEpochPoint() external view returns (uint256);
 
-    function getBombPrice() external view returns (uint256);
+    function getTokenPrice() external view returns (uint256);
 
     function setOperator(address _operator) external;
+
+    function setReserveFund(address _reserveFund) external;
+
+    function setStakeFee(uint256 _stakeFee) external;
+
+    function setWithdrawFee(uint256 _withdrawFee) external;
 
     function setLockUp(uint256 _withdrawLockupEpochs, uint256 _rewardLockupEpochs) external;
 

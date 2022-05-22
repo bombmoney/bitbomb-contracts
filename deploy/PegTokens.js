@@ -3,15 +3,14 @@ module.exports = async function ({getNamedAccounts, deployments}) {
 
     const {deployer, dev} = await getNamedAccounts();
 
-    const share = await ethers.getContract('Share');
+    const tokenData = ['CZpegs BOMB Peg', 'CZbomb', 18];
 
-    await deploy('ShareFarmRewardPool', {
+    await deploy('PegToken', {
         from: deployer,
-        args: [share.address, 1653955200], // 6 days after genesis
+        args: [tokenData[0], tokenData[1], tokenData[2], dev],
         log: true,
         deterministicDeployment: false,
     });
 };
 
-module.exports.tags = ['BShareRewardPool'];
-//module.exports.dependencies = ["BShare"];
+module.exports.tags = ['Token'];

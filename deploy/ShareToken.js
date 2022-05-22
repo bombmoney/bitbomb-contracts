@@ -3,15 +3,12 @@ module.exports = async function ({getNamedAccounts, deployments}) {
 
     const {deployer, dev} = await getNamedAccounts();
 
-    const share = await ethers.getContract('Share');
-
-    await deploy('ShareFarmRewardPool', {
+    await deploy('Share', {
         from: deployer,
-        args: [share.address, 1653955200], // 6 days after genesis
+        args: [1653451200, dev, dev],
         log: true,
         deterministicDeployment: false,
     });
 };
 
-module.exports.tags = ['BShareRewardPool'];
-//module.exports.dependencies = ["BShare"];
+module.exports.tags = ['Share'];

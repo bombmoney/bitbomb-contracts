@@ -25,7 +25,7 @@ interface ITaxable {
 
     function includeAddress(address _address) external returns (bool);
 
-    function setBombOracle(address _bombOracle) external;
+    function setTokenOracle(address _tokenOracle) external;
 
     function setTaxOffice(address _taxOffice) external;
 }

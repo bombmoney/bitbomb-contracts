@@ -1,21 +1,17 @@
+module.exports = async function ({getNamedAccounts, deployments}) {
+    const {deploy} = deployments;
 
-module.exports = async function ({
-    getNamedAccounts,
-    deployments,
-}) {
-    const { deploy } = deployments;
+    const {deployer, dev} = await getNamedAccounts();
 
-    const { deployer, dev } = await getNamedAccounts();
+    //  const token = await ethers.getContract("Token");
 
-    //  const bomb = await ethers.getContract("Bomb");
-
-    await deploy("Treasury", {
+    await deploy('Treasury', {
         from: deployer,
-        //  args: [bomb.address, 1637284903],
+        //  args: [token.address, 1637284903],
         log: true,
         deterministicDeployment: false,
     });
 };
 
-module.exports.tags = ["Treasury"];
-//module.exports.dependencies = ["Bomb", "BShare", "BombRewardPool", "BShareRewardPool"];
+module.exports.tags = ['Treasury'];
+//module.exports.dependencies = ["Token", "BShare", "TokenRewardPool", "BShareRewardPool"];
