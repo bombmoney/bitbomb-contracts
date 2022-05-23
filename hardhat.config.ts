@@ -10,13 +10,14 @@ import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
 import 'hardhat-gas-reporter';
 import 'hardhat-spdx-license-identifier';
+import '@openzeppelin/hardhat-upgrades';
 import '@typechain/hardhat';
 import 'hardhat-watcher';
 import 'solidity-coverage';
 import './tasks';
 
-import {HardhatUserConfig} from 'hardhat/types';
-import {removeConsoleLog} from 'hardhat-preprocessor';
+import { HardhatUserConfig } from 'hardhat/types';
+import { removeConsoleLog } from 'hardhat-preprocessor';
 
 const accounts = {
     mnemonic: process.env.MNEMONIC || 'test test test test test test test test test test test junk',

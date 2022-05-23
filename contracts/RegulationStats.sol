@@ -32,7 +32,7 @@ contract RegulationStats is OwnableUpgradeSafe, IRegulationStats {
 
     uint256 public totalBoardroomFunding;
     uint256 public totalDaoFunding;
-    uint256 public totalMarketingFunding;
+    uint256 public totalDevFunding;
     uint256 public totalInsuranceFunding;
 
     /* =================== Added variables (need to keep orders for proxy to work) =================== */
@@ -84,13 +84,13 @@ contract RegulationStats is OwnableUpgradeSafe, IRegulationStats {
     /* ========== MUTABLE FUNCTIONS ========== */
 
     function addEpochInfo(uint256 epochNumber, uint256 twap, uint256 expanded,
-        uint256 boardroomFunding, uint256 daoFunding, uint256 marketingFunding, uint256 insuranceFunding) external override onlyTreasuryOrOwner {
+        uint256 boardroomFunding, uint256 daoFunding, uint256 devFunding, uint256 insuranceFunding) external override onlyTreasuryOrOwner {
         Epoch storage _epochInfo = epochInfo[epochNumber];
         _epochInfo.twap = twap;
         _epochInfo.expanded = expanded;
         totalBoardroomFunding = totalBoardroomFunding.add(boardroomFunding);
         totalDaoFunding = totalDaoFunding.add(daoFunding);
-        totalMarketingFunding = totalMarketingFunding.add(marketingFunding);
+        totalDevFunding = totalDevFunding.add(devFunding);
         totalInsuranceFunding = totalInsuranceFunding.add(insuranceFunding);
     }
 

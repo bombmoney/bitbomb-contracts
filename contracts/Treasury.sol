@@ -13,6 +13,7 @@ import "./utils/ContractGuard.sol";
 import "./interfaces/IBasisAsset.sol";
 import "./interfaces/IOracle.sol";
 import "./interfaces/IBoardroom.sol";
+import "./interfaces/IRegulationStats.sol";
 
 /*
 
@@ -28,7 +29,7 @@ $$$$$$$  | $$$$$$  |$$ | \_/ $$ |$$$$$$$  |$$\ $$ | $$ | $$ |\$$$$$$  |$$ |  $$ 
                                                                                            \$$$$$$  |
     http://bomb.money                                                                      \______/ 
 */
-contract Treasury is ContractGuard {
+contract Treasury is ContractGuard, ReentrancyGuard {
     using SafeERC20 for IERC20;
     using Address for address;
     using SafeMath for uint256;
@@ -93,7 +94,7 @@ contract Treasury is ContractGuard {
     uint256 public premiumThreshold;
     uint256 public premiumPercent;
     uint256 public mintingFactorForPayingDebt; // print extra BOMB during debt phase
-
+  
     // 45% for Stakers in boardroom (THIS)
     // 45% for DAO fund
     // 2% for DEV fund
@@ -106,6 +107,9 @@ contract Treasury is ContractGuard {
 
     address public insuranceFund;
     uint256 public insuranceFundSharedPercent;
+
+    address public regulationStats;
+
 
     /* =================== Events =================== */
 
@@ -307,6 +311,10 @@ contract Treasury is ContractGuard {
         boardroom = _boardroom;
     }
 
+    function setRegulationStats(address _regulationStats) external onlyOperator {
+        regulationStats = _regulationStats;
+    }
+
     function setBoardroomWithdrawFee(uint256 _boardroomWithdrawFee) external onlyOperator {
         require(_boardroomWithdrawFee <= 20, "Max withdraw fee is 20%");
         boardroomWithdrawFee = _boardroomWithdrawFee;
@@ -470,6 +478,7 @@ contract Treasury is ContractGuard {
 
         epochSupplyContractionLeft = epochSupplyContractionLeft.sub(_tokenAmount);
         _updateTokenPrice();
+        if (regulationStats != address(0)) IRegulationStats(regulationStats).addBonded(epoch, _bondAmount);
 
         emit BoughtBonds(msg.sender, _tokenAmount, _bondAmount);
     }
@@ -496,6 +505,7 @@ contract Treasury is ContractGuard {
         IERC20(token).safeTransfer(msg.sender, _tokenAmount);
 
         _updateTokenPrice();
+        if (regulationStats != address(0)) IRegulationStats(regulationStats).addRedeemed(epoch, _tokenAmount);
 
         emit RedeemedBonds(msg.sender, _tokenAmount, _bondAmount);
     }
@@ -530,6 +540,8 @@ contract Treasury is ContractGuard {
         IERC20(token).safeApprove(boardroom, 0);
         IERC20(token).safeApprove(boardroom, _amount);
         IBoardroom(boardroom).allocateSeigniorage(_amount);
+        if (regulationStats != address(0)) IRegulationStats(regulationStats).addEpochInfo(epoch.add(1), previousEpochTokenPrice, _amount,
+            _amount, _daoFundSharedAmount, _devFundSharedAmount, _insuranceFundSharedAmount);
         emit BoardroomFunded(now, _amount);
     }
 
@@ -612,6 +624,10 @@ contract Treasury is ContractGuard {
 
     function boardroomAllocateSeigniorage(uint256 amount) external onlyOperator {
         IBoardroom(boardroom).allocateSeigniorage(amount);
+    }
+
+    function boardroomSetWithdrawFeeMultiplier(uint256 _amount) external onlyOperator {
+        IBoardroom(boardroom).setWithdrawFeeMultiplier(_amount);
     }
 
     function boardroomGovernanceRecoverUnsupported(

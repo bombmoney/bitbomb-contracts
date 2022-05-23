@@ -68,6 +68,7 @@ contract Boardroom is ContractGuard {
     address public reserveFund;
     uint256 public withdrawFee;
     uint256 public stakeFee;
+    uint256 public withdrawFeeMultiplier; // 100 means no multiplier
 
     /* ========== EVENTS ========== */
 
@@ -117,6 +118,7 @@ contract Boardroom is ContractGuard {
 
         stakeFee = 2;
         withdrawFee = 2;
+        withdrawFeeMultiplier = 200;
 
         BoardroomSnapshot memory genesisSnapshot = BoardroomSnapshot({time: block.number, rewardReceived: 0, rewardPerShare: 0});
         boardroomHistory.push(genesisSnapshot);
@@ -153,6 +155,12 @@ contract Boardroom is ContractGuard {
         require(_withdrawFee <= 20, "Max withdraw fee is 20%");
         withdrawFee = _withdrawFee;
     }
+
+    function setWithdrawFeeMultiplier(uint256 _withdrawFeeMultiplier) external onlyOperator {
+        require(_withdrawFeeMultiplier >= 100 && _withdrawFeeMultiplier <= 1000, "withdraw fee multiplier must be 1x to 10x");
+        withdrawFeeMultiplier = _withdrawFeeMultiplier;
+    }
+
 
     /* ========== VIEW FUNCTIONS ========== */
     function totalSupply() public view returns (uint256) {
@@ -240,6 +248,10 @@ contract Boardroom is ContractGuard {
         _totalSupply = _totalSupply.sub(amount);
         _balances[msg.sender] = memberShare.sub(amount);
         if (withdrawFee > 0) {
+            uint256 currentPrice = treasury.getTokenPrice();
+            if (currentPrice < 1e18) {
+                withdrawFee = withdrawFee.mul(withdrawFeeMultiplier).div(100);
+            }
             uint256 feeAmount = amount.mul(withdrawFee).div(100);
             share.safeTransfer(reserveFund, feeAmount);
             amount = amount.sub(feeAmount);
