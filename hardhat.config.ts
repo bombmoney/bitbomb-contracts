@@ -10,7 +10,6 @@ import 'hardhat-deploy';
 import 'hardhat-deploy-ethers';
 import 'hardhat-gas-reporter';
 import 'hardhat-spdx-license-identifier';
-import '@openzeppelin/hardhat-upgrades';
 import '@typechain/hardhat';
 import 'hardhat-watcher';
 import 'solidity-coverage';

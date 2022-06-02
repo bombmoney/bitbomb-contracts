@@ -249,7 +249,8 @@ contract Boardroom is ContractGuard {
         _balances[msg.sender] = memberShare.sub(amount);
         if (withdrawFee > 0) {
             uint256 currentPrice = treasury.getTokenPrice();
-            if (currentPrice < 1e18) {
+            uint256 targetPrice = treasury.tokenPriceOne();
+            if (currentPrice < targetPrice) {
                 withdrawFee = withdrawFee.mul(withdrawFeeMultiplier).div(100);
             }
             uint256 feeAmount = amount.mul(withdrawFee).div(100);

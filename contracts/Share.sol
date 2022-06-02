@@ -25,12 +25,12 @@ contract Share is ERC20Burnable, Operator {
     using SafeMath for uint256;
 
     // TOTAL MAX SUPPLY = 110,000 Share
-    uint256 public constant FARMING_POOL_REWARD_ALLOCATION = 90000 ether;
+    uint256 public constant FARMING_POOL_REWARD_ALLOCATION = 73000 ether;
 
-    uint256 public constant COMMUNITY_FUND_POOL_ALLOCATION = 5000 ether;
-    uint256 public constant DEV_FUND_POOL_ALLOCATION = 4900 ether;
+    uint256 public constant COMMUNITY_FUND_POOL_ALLOCATION = 8000 ether;
+    uint256 public constant DEV_FUND_POOL_ALLOCATION = 7900 ether;
 
-    uint256 public constant VESTING_DURATION = 365 days;
+    uint256 public constant VESTING_DURATION = 730 days;
     uint256 public startTime;
     uint256 public endTime;
 

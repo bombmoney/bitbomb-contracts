@@ -47,9 +47,9 @@ contract ShareFarmRewardPool {
     // The time when tSHARE mining ends.
     uint256 public poolEndTime;
 
-    uint256 public sharePerSecond = 0.00063419 ether; // 73000 share / (730 days * 24h * 60min * 60s)
-    uint256 public runningTime = 1000 days; // 730 days
-    uint256 public constant TOTAL_REWARDS = 90000 ether;
+    uint256 public sharePerSecond = 0.001157407 ether; // 73000 share / (730 days * 24h * 60min * 60s)
+    uint256 public runningTime = 730 days; // 730 days
+    uint256 public constant TOTAL_REWARDS = 73000 ether;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);

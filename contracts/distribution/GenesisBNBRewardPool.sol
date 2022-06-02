@@ -56,9 +56,9 @@ contract GenesisBNBRewardPool {
     // END TESTNET
 
     // MAINNET
-    uint256 public tokenPerSecond = 0.012731481 ether; // 
+    uint256 public tokenPerSecond = 0.003472222 ether; // 
     uint256 public runningTime = 1 days; // 1 days
-    uint256 public constant TOTAL_REWARDS = 1100 ether;
+    uint256 public constant TOTAL_REWARDS = 300 ether;
     // END MAINNET
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);

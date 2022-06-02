@@ -56,9 +56,9 @@ contract GenesisBOMBRewardPool {
     // END TESTNET
 
     // MAINNET
-    uint256 public tokenPerSecond = 1.446759259 ether; // 
+    uint256 public tokenPerSecond = 0.462962963 ether; // 
     uint256 public runningTime = 1 days; // 1 days
-    uint256 public constant TOTAL_REWARDS = 125000 ether;
+    uint256 public constant TOTAL_REWARDS = 40000 ether;
     // END MAINNET
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);

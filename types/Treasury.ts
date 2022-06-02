@@ -27,6 +27,7 @@ export interface TreasuryInterface extends utils.Interface {
     "boardroomSetLockUp(uint256,uint256)": FunctionFragment;
     "boardroomSetOperator(address)": FunctionFragment;
     "boardroomSetReserveFund(address)": FunctionFragment;
+    "boardroomSetWithdrawFeeMultiplier(uint256)": FunctionFragment;
     "boardroomStakeFee()": FunctionFragment;
     "boardroomWithdrawFee()": FunctionFragment;
     "bond()": FunctionFragment;
@@ -127,6 +128,10 @@ export interface TreasuryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "boardroomSetReserveFund",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "boardroomSetWithdrawFeeMultiplier",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "boardroomStakeFee",
@@ -418,6 +423,10 @@ export interface TreasuryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "boardroomSetReserveFund",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "boardroomSetWithdrawFeeMultiplier",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -839,6 +848,11 @@ export interface Treasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    boardroomSetWithdrawFeeMultiplier(
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     boardroomStakeFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     boardroomWithdrawFee(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -1141,6 +1155,11 @@ export interface Treasury extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  boardroomSetWithdrawFeeMultiplier(
+    _amount: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   boardroomStakeFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   boardroomWithdrawFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1424,6 +1443,11 @@ export interface Treasury extends BaseContract {
 
     boardroomSetReserveFund(
       _reserveFund: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    boardroomSetWithdrawFeeMultiplier(
+      _amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -1805,6 +1829,11 @@ export interface Treasury extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    boardroomSetWithdrawFeeMultiplier(
+      _amount: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     boardroomStakeFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     boardroomWithdrawFee(overrides?: CallOverrides): Promise<BigNumber>;
@@ -2091,6 +2120,11 @@ export interface Treasury extends BaseContract {
 
     boardroomSetReserveFund(
       _reserveFund: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    boardroomSetWithdrawFeeMultiplier(
+      _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -246,6 +246,19 @@ const _abi = [
     inputs: [
       {
         internalType: "uint256",
+        name: "_withdrawFee",
+        type: "uint256",
+      },
+    ],
+    name: "setWithdrawFeeMultiplier",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
         name: "_amount",
         type: "uint256",
       },

@@ -45,6 +45,7 @@ export interface BoardroomInterface extends utils.Interface {
     "setReserveFund(address)": FunctionFragment;
     "setStakeFee(uint256)": FunctionFragment;
     "setWithdrawFee(uint256)": FunctionFragment;
+    "setWithdrawFeeMultiplier(uint256)": FunctionFragment;
     "share()": FunctionFragment;
     "stake(uint256)": FunctionFragment;
     "stakeFee()": FunctionFragment;
@@ -53,6 +54,7 @@ export interface BoardroomInterface extends utils.Interface {
     "treasury()": FunctionFragment;
     "withdraw(uint256)": FunctionFragment;
     "withdrawFee()": FunctionFragment;
+    "withdrawFeeMultiplier()": FunctionFragment;
     "withdrawLockupEpochs()": FunctionFragment;
   };
 
@@ -136,6 +138,10 @@ export interface BoardroomInterface extends utils.Interface {
     functionFragment: "setWithdrawFee",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setWithdrawFeeMultiplier",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "share", values?: undefined): string;
   encodeFunctionData(functionFragment: "stake", values: [BigNumberish]): string;
   encodeFunctionData(functionFragment: "stakeFee", values?: undefined): string;
@@ -151,6 +157,10 @@ export interface BoardroomInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "withdrawFee",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "withdrawFeeMultiplier",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -238,6 +248,10 @@ export interface BoardroomInterface extends utils.Interface {
     functionFragment: "setWithdrawFee",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setWithdrawFeeMultiplier",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "share", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "stakeFee", data: BytesLike): Result;
@@ -250,6 +264,10 @@ export interface BoardroomInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "withdrawFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "withdrawFeeMultiplier",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -443,6 +461,11 @@ export interface Boardroom extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setWithdrawFeeMultiplier(
+      _withdrawFeeMultiplier: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     share(overrides?: CallOverrides): Promise<[string]>;
 
     stake(
@@ -464,6 +487,8 @@ export interface Boardroom extends BaseContract {
     ): Promise<ContractTransaction>;
 
     withdrawFee(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    withdrawFeeMultiplier(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     withdrawLockupEpochs(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
@@ -574,6 +599,11 @@ export interface Boardroom extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setWithdrawFeeMultiplier(
+    _withdrawFeeMultiplier: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   share(overrides?: CallOverrides): Promise<string>;
 
   stake(
@@ -595,6 +625,8 @@ export interface Boardroom extends BaseContract {
   ): Promise<ContractTransaction>;
 
   withdrawFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+  withdrawFeeMultiplier(overrides?: CallOverrides): Promise<BigNumber>;
 
   withdrawLockupEpochs(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -698,6 +730,11 @@ export interface Boardroom extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setWithdrawFeeMultiplier(
+      _withdrawFeeMultiplier: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     share(overrides?: CallOverrides): Promise<string>;
 
     stake(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
@@ -713,6 +750,8 @@ export interface Boardroom extends BaseContract {
     withdraw(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     withdrawFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    withdrawFeeMultiplier(overrides?: CallOverrides): Promise<BigNumber>;
 
     withdrawLockupEpochs(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -844,6 +883,11 @@ export interface Boardroom extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setWithdrawFeeMultiplier(
+      _withdrawFeeMultiplier: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     share(overrides?: CallOverrides): Promise<BigNumber>;
 
     stake(
@@ -865,6 +909,8 @@ export interface Boardroom extends BaseContract {
     ): Promise<BigNumber>;
 
     withdrawFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    withdrawFeeMultiplier(overrides?: CallOverrides): Promise<BigNumber>;
 
     withdrawLockupEpochs(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -980,6 +1026,11 @@ export interface Boardroom extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setWithdrawFeeMultiplier(
+      _withdrawFeeMultiplier: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     share(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     stake(
@@ -1001,6 +1052,10 @@ export interface Boardroom extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     withdrawFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    withdrawFeeMultiplier(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     withdrawLockupEpochs(
       overrides?: CallOverrides

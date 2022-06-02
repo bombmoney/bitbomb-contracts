@@ -35,6 +35,7 @@ export interface IBoardroomInterface extends utils.Interface {
     "setReserveFund(address)": FunctionFragment;
     "setStakeFee(uint256)": FunctionFragment;
     "setWithdrawFee(uint256)": FunctionFragment;
+    "setWithdrawFeeMultiplier(uint256)": FunctionFragment;
     "stake(uint256)": FunctionFragment;
     "withdraw(uint256)": FunctionFragment;
   };
@@ -83,6 +84,10 @@ export interface IBoardroomInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setWithdrawFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setWithdrawFeeMultiplier",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "stake", values: [BigNumberish]): string;
@@ -138,6 +143,10 @@ export interface IBoardroomInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setWithdrawFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setWithdrawFeeMultiplier",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
@@ -236,6 +245,11 @@ export interface IBoardroom extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setWithdrawFeeMultiplier(
+      _withdrawFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     stake(
       _amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -307,6 +321,11 @@ export interface IBoardroom extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setWithdrawFeeMultiplier(
+    _withdrawFee: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   stake(
     _amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -370,6 +389,11 @@ export interface IBoardroom extends BaseContract {
     ): Promise<void>;
 
     setWithdrawFee(
+      _withdrawFee: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setWithdrawFeeMultiplier(
       _withdrawFee: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -441,6 +465,11 @@ export interface IBoardroom extends BaseContract {
     ): Promise<BigNumber>;
 
     setWithdrawFee(
+      _withdrawFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setWithdrawFeeMultiplier(
       _withdrawFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -525,6 +554,11 @@ export interface IBoardroom extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     setWithdrawFee(
+      _withdrawFee: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setWithdrawFeeMultiplier(
       _withdrawFee: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

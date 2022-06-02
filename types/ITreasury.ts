@@ -24,6 +24,7 @@ export interface ITreasuryInterface extends utils.Interface {
     "getTokenPrice()": FunctionFragment;
     "nextEpochPoint()": FunctionFragment;
     "redeemBonds(uint256,uint256)": FunctionFragment;
+    "tokenPriceOne()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -43,6 +44,10 @@ export interface ITreasuryInterface extends utils.Interface {
     functionFragment: "redeemBonds",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "tokenPriceOne",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(functionFragment: "buyBonds", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "epoch", data: BytesLike): Result;
@@ -56,6 +61,10 @@ export interface ITreasuryInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "redeemBonds",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "tokenPriceOne",
     data: BytesLike
   ): Result;
 
@@ -106,6 +115,8 @@ export interface ITreasury extends BaseContract {
       targetPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    tokenPriceOne(overrides?: CallOverrides): Promise<[BigNumber]>;
   };
 
   buyBonds(
@@ -126,6 +137,8 @@ export interface ITreasury extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  tokenPriceOne(overrides?: CallOverrides): Promise<BigNumber>;
+
   callStatic: {
     buyBonds(
       amount: BigNumberish,
@@ -144,6 +157,8 @@ export interface ITreasury extends BaseContract {
       targetPrice: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    tokenPriceOne(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {};
@@ -166,6 +181,8 @@ export interface ITreasury extends BaseContract {
       targetPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    tokenPriceOne(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -186,5 +203,7 @@ export interface ITreasury extends BaseContract {
       targetPrice: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    tokenPriceOne(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

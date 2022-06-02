@@ -9,6 +9,8 @@ interface ITreasury {
 
     function getTokenPrice() external view returns (uint256);
 
+    function tokenPriceOne() external view returns (uint256);
+
     function buyBonds(uint256 amount, uint256 targetPrice) external;
 
     function redeemBonds(uint256 amount, uint256 targetPrice) external;

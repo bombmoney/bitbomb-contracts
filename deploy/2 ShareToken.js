@@ -5,7 +5,7 @@ module.exports = async function ({getNamedAccounts, deployments}) {
 
     await deploy('Share', {
         from: deployer,
-        args: [1653451200, dev, dev],
+        args: [1653501600, dev, dev],
         log: true,
         deterministicDeployment: false,
     });

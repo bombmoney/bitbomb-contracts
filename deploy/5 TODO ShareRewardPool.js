@@ -7,7 +7,7 @@ module.exports = async function ({getNamedAccounts, deployments}) {
 
     await deploy('ShareFarmRewardPool', {
         from: deployer,
-        args: [share.address, 1653955200], // 6 days after genesis
+        args: [share.address, 1653588000], // 6 days after genesis
         log: true,
         deterministicDeployment: false,
     });
