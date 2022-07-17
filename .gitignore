@@ -15,7 +15,7 @@ coverage.json
 !deployments/*.log
 env.json
 
-flat_
+flat_*
 
 node_modules
 .env
