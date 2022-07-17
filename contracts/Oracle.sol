@@ -2,8 +2,6 @@
 
 pragma solidity 0.6.12;
 
-import "@openzeppelin/contracts/math/SafeMath.sol";
-
 import "./lib/Babylonian.sol";
 import "./lib/FixedPoint.sol";
 import "./lib/UniswapV2OracleLibrary.sol";

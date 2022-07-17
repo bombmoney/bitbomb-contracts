@@ -1,11 +1,11 @@
-module.exports = async function ({getNamedAccounts, deployments}) {
-    const {deploy} = deployments;
+module.exports = async function ({ getNamedAccounts, deployments }) {
+    const { deploy } = deployments;
 
-    const {deployer, dev} = await getNamedAccounts();
+    const { deployer, dev } = await getNamedAccounts();
 
-    await deploy('Share', {
+    await deploy('BitShare', {
         from: deployer,
-        args: [1653501600, dev, dev],
+        args: [1657728000, dev, dev],
         log: true,
         deterministicDeployment: false,
     });

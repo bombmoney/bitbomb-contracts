@@ -1,7 +1,7 @@
-module.exports = async function ({getNamedAccounts, deployments}) {
-    const {deploy} = deployments;
+module.exports = async function ({ getNamedAccounts, deployments }) {
+    const { deploy } = deployments;
 
-    const {deployer, dev} = await getNamedAccounts();
+    const { deployer, dev } = await getNamedAccounts();
 
     // const bnb = await deploy('BondBNB', {
     //     from: deployer,
@@ -26,13 +26,40 @@ module.exports = async function ({getNamedAccounts, deployments}) {
     //     deterministicDeployment: false,
     // });
     // console.log('EMP bond', emp.address);
-    const bnb = await deploy('BondBUSD', {
+
+    const ada = await deploy('BondADA', {
         from: deployer,
-        args: ['CZbusd BOND', 'CZbusdBOND'],
+        args: ['bitADA Bond', 'ADABOND'],
         log: true,
         deterministicDeployment: false,
     });
-    console.log('BNB bond', bnb.address);
+    console.log('ada bond', ada.address);
+
+    const atom = await deploy('BondATOM', {
+        from: deployer,
+        args: ['bitATOM Bond', 'ATOMBOND'],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log('atom bond', atom.address);
+
+
+    const dot = await deploy('BondDOT', {
+        from: deployer,
+        args: ['bitDOT Bond', 'DOTBOND'],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log('dot bond', dot.address);
+
+
+    const btc = await deploy('BondBTC', {
+        from: deployer,
+        args: ['bitBTC Bond', 'BTCBOND'],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log('btc bond', btc.address);
 };
 
 module.exports.tags = ['Bonds'];

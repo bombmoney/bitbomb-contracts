@@ -47,19 +47,16 @@ contract ShareFarmRewardPool {
     // The time when tSHARE mining ends.
     uint256 public poolEndTime;
 
-    uint256 public sharePerSecond = 0.001157407 ether; // 73000 share / (730 days * 24h * 60min * 60s)
+    uint256 public sharePerSecond = 0.000694444 ether; // 73000 share / (730 days * 24h * 60min * 60s)
     uint256 public runningTime = 730 days; // 730 days
-    uint256 public constant TOTAL_REWARDS = 73000 ether;
+    uint256 public constant TOTAL_REWARDS = 43800 ether;
 
     event Deposit(address indexed user, uint256 indexed pid, uint256 amount);
     event Withdraw(address indexed user, uint256 indexed pid, uint256 amount);
     event EmergencyWithdraw(address indexed user, uint256 indexed pid, uint256 amount);
     event RewardPaid(address indexed user, uint256 amount);
 
-    constructor(
-        address _share,
-        uint256 _poolStartTime
-    ) public {
+    constructor(address _share, uint256 _poolStartTime) public {
         require(block.timestamp < _poolStartTime, "late");
         if (_share != address(0)) share = IERC20(_share);
         poolStartTime = _poolStartTime;
@@ -105,16 +102,8 @@ contract ShareFarmRewardPool {
                 _lastRewardTime = block.timestamp;
             }
         }
-        bool _isStarted =
-        (_lastRewardTime <= poolStartTime) ||
-        (_lastRewardTime <= block.timestamp);
-        poolInfo.push(PoolInfo({
-            token : _token,
-            allocPoint : _allocPoint,
-            lastRewardTime : _lastRewardTime,
-            accSharePerShare : 0,
-            isStarted : _isStarted
-            }));
+        bool _isStarted = (_lastRewardTime <= poolStartTime) || (_lastRewardTime <= block.timestamp);
+        poolInfo.push(PoolInfo({token: _token, allocPoint: _allocPoint, lastRewardTime: _lastRewardTime, accSharePerShare: 0, isStarted: _isStarted}));
         if (_isStarted) {
             totalAllocPoint = totalAllocPoint.add(_allocPoint);
         }
@@ -125,9 +114,7 @@ contract ShareFarmRewardPool {
         massUpdatePools();
         PoolInfo storage pool = poolInfo[_pid];
         if (pool.isStarted) {
-            totalAllocPoint = totalAllocPoint.sub(pool.allocPoint).add(
-                _allocPoint
-            );
+            totalAllocPoint = totalAllocPoint.sub(pool.allocPoint).add(_allocPoint);
         }
         pool.allocPoint = _allocPoint;
     }
@@ -259,7 +246,11 @@ contract ShareFarmRewardPool {
         operator = _operator;
     }
 
-    function governanceRecoverUnsupported(IERC20 _token, uint256 amount, address to) external onlyOperator {
+    function governanceRecoverUnsupported(
+        IERC20 _token,
+        uint256 amount,
+        address to
+    ) external onlyOperator {
         if (block.timestamp < poolEndTime + 90 days) {
             // do not allow to drain core token (tSHARE or lps) if less than 90 days after pool ends
             require(_token != share, "share");

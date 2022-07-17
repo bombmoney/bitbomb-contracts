@@ -19,51 +19,45 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface TokenInterface extends utils.Interface {
   functions: {
-    "INITIAL_AIRDROP_WALLET_DISTRIBUTION()": FunctionFragment;
-    "INITIAL_BOMB_POOL_DISTRIBUTION()": FunctionFragment;
     "INITIAL_GENESIS_POOL_DISTRIBUTION()": FunctionFragment;
+    "addLiquidityEnabled()": FunctionFragment;
     "allowance(address,address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
-    "autoCalculateTax()": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256)": FunctionFragment;
     "burnFrom(address,uint256)": FunctionFragment;
-    "burnThreshold()": FunctionFragment;
+    "burnRate()": FunctionFragment;
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
-    "disableAutoCalculateTax()": FunctionFragment;
-    "distributeReward(address,address,address)": FunctionFragment;
-    "enableAutoCalculateTax()": FunctionFragment;
-    "excludeAddress(address)": FunctionFragment;
-    "excludedAddresses(address)": FunctionFragment;
-    "getTaxTiersRatesCount()": FunctionFragment;
-    "getTaxTiersTwapsCount()": FunctionFragment;
-    "governanceRecoverUnsupported(address,uint256,address)": FunctionFragment;
-    "includeAddress(address)": FunctionFragment;
+    "distributeReward(address)": FunctionFragment;
+    "getTokenPrice()": FunctionFragment;
+    "getTokenUpdatedPrice()": FunctionFragment;
+    "governanceRecoverUnsupported(address)": FunctionFragment;
     "increaseAllowance(address,uint256)": FunctionFragment;
-    "isAddressExcluded(address)": FunctionFragment;
+    "isExcludedFromFee(address)": FunctionFragment;
+    "isExcludedToFee(address)": FunctionFragment;
     "isOperator()": FunctionFragment;
     "mint(address,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "operator()": FunctionFragment;
+    "oracle()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "rewardPoolDistributed()": FunctionFragment;
-    "setBurnThreshold(uint256)": FunctionFragment;
-    "setTaxCollectorAddress(address)": FunctionFragment;
-    "setTaxOffice(address)": FunctionFragment;
+    "setBurnRate(uint256)": FunctionFragment;
+    "setExcludeBothDirectionsFee(address,bool)": FunctionFragment;
+    "setExcludeFromFee(address,bool)": FunctionFragment;
+    "setExcludeToFee(address,bool)": FunctionFragment;
+    "setOracle(address)": FunctionFragment;
+    "setTaxFund(address)": FunctionFragment;
     "setTaxRate(uint256)": FunctionFragment;
-    "setTaxTiersRate(uint8,uint256)": FunctionFragment;
-    "setTaxTiersTwap(uint8,uint256)": FunctionFragment;
-    "setTokenOracle(address)": FunctionFragment;
     "symbol()": FunctionFragment;
-    "taxCollectorAddress()": FunctionFragment;
-    "taxOffice()": FunctionFragment;
+    "taxFund()": FunctionFragment;
     "taxRate()": FunctionFragment;
-    "taxTiersRates(uint256)": FunctionFragment;
-    "taxTiersTwaps(uint256)": FunctionFragment;
-    "tokenOracle()": FunctionFragment;
+    "toggleAddLiquidityEnabled()": FunctionFragment;
+    "totalBurned()": FunctionFragment;
     "totalSupply()": FunctionFragment;
+    "totalTaxAdded()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
     "transferOperator(address)": FunctionFragment;
@@ -71,15 +65,11 @@ export interface TokenInterface extends utils.Interface {
   };
 
   encodeFunctionData(
-    functionFragment: "INITIAL_AIRDROP_WALLET_DISTRIBUTION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "INITIAL_BOMB_POOL_DISTRIBUTION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "INITIAL_GENESIS_POOL_DISTRIBUTION",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addLiquidityEnabled",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -90,59 +80,32 @@ export interface TokenInterface extends utils.Interface {
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "autoCalculateTax",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(functionFragment: "burn", values: [BigNumberish]): string;
   encodeFunctionData(
     functionFragment: "burnFrom",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "burnThreshold",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "burnRate", values?: undefined): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "decreaseAllowance",
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "disableAutoCalculateTax",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "distributeReward",
-    values: [string, string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "enableAutoCalculateTax",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "excludeAddress",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "excludedAddresses",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getTaxTiersRatesCount",
+    functionFragment: "getTokenPrice",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getTaxTiersTwapsCount",
+    functionFragment: "getTokenUpdatedPrice",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "governanceRecoverUnsupported",
-    values: [string, BigNumberish, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "includeAddress",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -150,7 +113,11 @@ export interface TokenInterface extends utils.Interface {
     values: [string, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "isAddressExcluded",
+    functionFragment: "isExcludedFromFee",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isExcludedToFee",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -163,6 +130,7 @@ export interface TokenInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(functionFragment: "operator", values?: undefined): string;
+  encodeFunctionData(functionFragment: "oracle", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
@@ -173,54 +141,44 @@ export interface TokenInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "setBurnThreshold",
+    functionFragment: "setBurnRate",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTaxCollectorAddress",
-    values: [string]
+    functionFragment: "setExcludeBothDirectionsFee",
+    values: [string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setTaxOffice",
-    values: [string]
+    functionFragment: "setExcludeFromFee",
+    values: [string, boolean]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setExcludeToFee",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(functionFragment: "setOracle", values: [string]): string;
+  encodeFunctionData(functionFragment: "setTaxFund", values: [string]): string;
   encodeFunctionData(
     functionFragment: "setTaxRate",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setTaxTiersRate",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setTaxTiersTwap",
-    values: [BigNumberish, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setTokenOracle",
-    values: [string]
-  ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "taxCollectorAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "taxOffice", values?: undefined): string;
+  encodeFunctionData(functionFragment: "taxFund", values?: undefined): string;
   encodeFunctionData(functionFragment: "taxRate", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "taxTiersRates",
-    values: [BigNumberish]
+    functionFragment: "toggleAddLiquidityEnabled",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "taxTiersTwaps",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "tokenOracle",
+    functionFragment: "totalBurned",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "totalTaxAdded",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -241,37 +199,22 @@ export interface TokenInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "INITIAL_AIRDROP_WALLET_DISTRIBUTION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "INITIAL_BOMB_POOL_DISTRIBUTION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "INITIAL_GENESIS_POOL_DISTRIBUTION",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "addLiquidityEnabled",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "autoCalculateTax",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnFrom", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "burnThreshold",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "burnRate", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "decreaseAllowance",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "disableAutoCalculateTax",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -279,23 +222,11 @@ export interface TokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "enableAutoCalculateTax",
+    functionFragment: "getTokenPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "excludeAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "excludedAddresses",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTaxTiersRatesCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getTaxTiersTwapsCount",
+    functionFragment: "getTokenUpdatedPrice",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -303,21 +234,22 @@ export interface TokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "includeAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "increaseAllowance",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "isAddressExcluded",
+    functionFragment: "isExcludedFromFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isExcludedToFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "isOperator", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "operator", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "oracle", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
@@ -328,51 +260,41 @@ export interface TokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setBurnThreshold",
+    functionFragment: "setBurnRate",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTaxCollectorAddress",
+    functionFragment: "setExcludeBothDirectionsFee",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setTaxOffice",
+    functionFragment: "setExcludeFromFee",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setExcludeToFee",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "setOracle", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setTaxFund", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "setTaxRate", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "setTaxTiersRate",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTaxTiersTwap",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTokenOracle",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "taxCollectorAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "taxOffice", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "taxFund", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "taxRate", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "taxTiersRates",
+    functionFragment: "toggleAddLiquidityEnabled",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "taxTiersTwaps",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "tokenOracle",
+    functionFragment: "totalBurned",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "totalTaxAdded",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
@@ -393,14 +315,14 @@ export interface TokenInterface extends utils.Interface {
     "Approval(address,address,uint256)": EventFragment;
     "OperatorTransferred(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "TaxOfficeTransferred(address,address)": EventFragment;
+    "TaxAdded(address,address,uint256)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OperatorTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TaxOfficeTransferred"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TaxAdded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -427,13 +349,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export type TaxOfficeTransferredEvent = TypedEvent<
-  [string, string],
-  { oldAddress: string; newAddress: string }
+export type TaxAddedEvent = TypedEvent<
+  [string, string, BigNumber],
+  { account: string; taxFund: string; amount: BigNumber }
 >;
 
-export type TaxOfficeTransferredEventFilter =
-  TypedEventFilter<TaxOfficeTransferredEvent>;
+export type TaxAddedEventFilter = TypedEventFilter<TaxAddedEvent>;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber],
@@ -469,17 +390,11 @@ export interface Token extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    INITIAL_AIRDROP_WALLET_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    INITIAL_BOMB_POOL_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     INITIAL_GENESIS_POOL_DISTRIBUTION(
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    addLiquidityEnabled(overrides?: CallOverrides): Promise<[boolean]>;
 
     allowance(
       owner: string,
@@ -492,8 +407,6 @@ export interface Token extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
-
-    autoCalculateTax(overrides?: CallOverrides): Promise<[boolean]>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -508,7 +421,7 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    burnThreshold(overrides?: CallOverrides): Promise<[BigNumber]>;
+    burnRate(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
 
@@ -518,48 +431,17 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    disableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     distributeReward(
       _genesisPool: string,
-      _tokenPool: string,
-      _airdropWallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    enableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    getTokenPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    excludeAddress(
-      _address: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    excludedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    getTaxTiersRatesCount(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { count: BigNumber }>;
-
-    getTaxTiersTwapsCount(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { count: BigNumber }>;
+    getTokenUpdatedPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     governanceRecoverUnsupported(
       _token: string,
-      _amount: BigNumberish,
-      _to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    includeAddress(
-      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -569,8 +451,13 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    isAddressExcluded(
-      _address: string,
+    isExcludedFromFee(
+      _account: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    isExcludedToFee(
+      _account: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
@@ -586,6 +473,8 @@ export interface Token extends BaseContract {
 
     operator(overrides?: CallOverrides): Promise<[string]>;
 
+    oracle(overrides?: CallOverrides): Promise<[string]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
@@ -594,18 +483,36 @@ export interface Token extends BaseContract {
 
     rewardPoolDistributed(overrides?: CallOverrides): Promise<[boolean]>;
 
-    setBurnThreshold(
-      _burnThreshold: BigNumberish,
+    setBurnRate(
+      _burnRate: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTaxCollectorAddress(
-      _taxCollectorAddress: string,
+    setExcludeBothDirectionsFee(
+      _account: string,
+      _status: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTaxOffice(
-      _taxOffice: string,
+    setExcludeFromFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setExcludeToFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setOracle(
+      _oracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTaxFund(
+      _taxFund: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -614,44 +521,21 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTaxTiersRate(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setTaxTiersTwap(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setTokenOracle(
-      _tokenOracle: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
-    taxCollectorAddress(overrides?: CallOverrides): Promise<[string]>;
-
-    taxOffice(overrides?: CallOverrides): Promise<[string]>;
+    taxFund(overrides?: CallOverrides): Promise<[string]>;
 
     taxRate(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    taxTiersRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    toggleAddLiquidityEnabled(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
-    taxTiersTwaps(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
-    tokenOracle(overrides?: CallOverrides): Promise<[string]>;
+    totalBurned(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    totalTaxAdded(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transfer(
       recipient: string,
@@ -677,15 +561,11 @@ export interface Token extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
-  INITIAL_AIRDROP_WALLET_DISTRIBUTION(
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  INITIAL_BOMB_POOL_DISTRIBUTION(overrides?: CallOverrides): Promise<BigNumber>;
-
   INITIAL_GENESIS_POOL_DISTRIBUTION(
     overrides?: CallOverrides
   ): Promise<BigNumber>;
+
+  addLiquidityEnabled(overrides?: CallOverrides): Promise<boolean>;
 
   allowance(
     owner: string,
@@ -698,8 +578,6 @@ export interface Token extends BaseContract {
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
-
-  autoCalculateTax(overrides?: CallOverrides): Promise<boolean>;
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -714,7 +592,7 @@ export interface Token extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  burnThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+  burnRate(overrides?: CallOverrides): Promise<BigNumber>;
 
   decimals(overrides?: CallOverrides): Promise<number>;
 
@@ -724,41 +602,17 @@ export interface Token extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  disableAutoCalculateTax(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   distributeReward(
     _genesisPool: string,
-    _tokenPool: string,
-    _airdropWallet: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  enableAutoCalculateTax(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  getTokenPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-  excludeAddress(
-    _address: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  excludedAddresses(arg0: string, overrides?: CallOverrides): Promise<boolean>;
-
-  getTaxTiersRatesCount(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getTaxTiersTwapsCount(overrides?: CallOverrides): Promise<BigNumber>;
+  getTokenUpdatedPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   governanceRecoverUnsupported(
     _token: string,
-    _amount: BigNumberish,
-    _to: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  includeAddress(
-    _address: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -768,8 +622,13 @@ export interface Token extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  isAddressExcluded(
-    _address: string,
+  isExcludedFromFee(
+    _account: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  isExcludedToFee(
+    _account: string,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
@@ -785,6 +644,8 @@ export interface Token extends BaseContract {
 
   operator(overrides?: CallOverrides): Promise<string>;
 
+  oracle(overrides?: CallOverrides): Promise<string>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
@@ -793,18 +654,36 @@ export interface Token extends BaseContract {
 
   rewardPoolDistributed(overrides?: CallOverrides): Promise<boolean>;
 
-  setBurnThreshold(
-    _burnThreshold: BigNumberish,
+  setBurnRate(
+    _burnRate: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTaxCollectorAddress(
-    _taxCollectorAddress: string,
+  setExcludeBothDirectionsFee(
+    _account: string,
+    _status: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTaxOffice(
-    _taxOffice: string,
+  setExcludeFromFee(
+    _account: string,
+    _status: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setExcludeToFee(
+    _account: string,
+    _status: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setOracle(
+    _oracle: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTaxFund(
+    _taxFund: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -813,44 +692,21 @@ export interface Token extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTaxTiersRate(
-    _index: BigNumberish,
-    _value: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setTaxTiersTwap(
-    _index: BigNumberish,
-    _value: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setTokenOracle(
-    _tokenOracle: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   symbol(overrides?: CallOverrides): Promise<string>;
 
-  taxCollectorAddress(overrides?: CallOverrides): Promise<string>;
-
-  taxOffice(overrides?: CallOverrides): Promise<string>;
+  taxFund(overrides?: CallOverrides): Promise<string>;
 
   taxRate(overrides?: CallOverrides): Promise<BigNumber>;
 
-  taxTiersRates(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  toggleAddLiquidityEnabled(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
-  taxTiersTwaps(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
-  tokenOracle(overrides?: CallOverrides): Promise<string>;
+  totalBurned(overrides?: CallOverrides): Promise<BigNumber>;
 
   totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+  totalTaxAdded(overrides?: CallOverrides): Promise<BigNumber>;
 
   transfer(
     recipient: string,
@@ -876,17 +732,11 @@ export interface Token extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    INITIAL_AIRDROP_WALLET_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    INITIAL_BOMB_POOL_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     INITIAL_GENESIS_POOL_DISTRIBUTION(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    addLiquidityEnabled(overrides?: CallOverrides): Promise<boolean>;
 
     allowance(
       owner: string,
@@ -900,8 +750,6 @@ export interface Token extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    autoCalculateTax(overrides?: CallOverrides): Promise<boolean>;
-
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     burn(amount: BigNumberish, overrides?: CallOverrides): Promise<void>;
@@ -912,7 +760,7 @@ export interface Token extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    burnThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+    burnRate(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<number>;
 
@@ -922,42 +770,19 @@ export interface Token extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    disableAutoCalculateTax(overrides?: CallOverrides): Promise<void>;
-
     distributeReward(
       _genesisPool: string,
-      _tokenPool: string,
-      _airdropWallet: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    enableAutoCalculateTax(overrides?: CallOverrides): Promise<void>;
+    getTokenPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-    excludeAddress(
-      _address: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    excludedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    getTaxTiersRatesCount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTaxTiersTwapsCount(overrides?: CallOverrides): Promise<BigNumber>;
+    getTokenUpdatedPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     governanceRecoverUnsupported(
       _token: string,
-      _amount: BigNumberish,
-      _to: string,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    includeAddress(
-      _address: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
 
     increaseAllowance(
       spender: string,
@@ -965,8 +790,13 @@ export interface Token extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    isAddressExcluded(
-      _address: string,
+    isExcludedFromFee(
+      _account: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    isExcludedToFee(
+      _account: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
@@ -982,67 +812,59 @@ export interface Token extends BaseContract {
 
     operator(overrides?: CallOverrides): Promise<string>;
 
+    oracle(overrides?: CallOverrides): Promise<string>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     rewardPoolDistributed(overrides?: CallOverrides): Promise<boolean>;
 
-    setBurnThreshold(
-      _burnThreshold: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    setTaxCollectorAddress(
-      _taxCollectorAddress: string,
+    setBurnRate(
+      _burnRate: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTaxOffice(_taxOffice: string, overrides?: CallOverrides): Promise<void>;
+    setExcludeBothDirectionsFee(
+      _account: string,
+      _status: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setExcludeFromFee(
+      _account: string,
+      _status: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setExcludeToFee(
+      _account: string,
+      _status: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setOracle(_oracle: string, overrides?: CallOverrides): Promise<void>;
+
+    setTaxFund(_taxFund: string, overrides?: CallOverrides): Promise<void>;
 
     setTaxRate(
       _taxRate: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTaxTiersRate(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    setTaxTiersTwap(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    setTokenOracle(
-      _tokenOracle: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     symbol(overrides?: CallOverrides): Promise<string>;
 
-    taxCollectorAddress(overrides?: CallOverrides): Promise<string>;
-
-    taxOffice(overrides?: CallOverrides): Promise<string>;
+    taxFund(overrides?: CallOverrides): Promise<string>;
 
     taxRate(overrides?: CallOverrides): Promise<BigNumber>;
 
-    taxTiersRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    toggleAddLiquidityEnabled(overrides?: CallOverrides): Promise<void>;
 
-    taxTiersTwaps(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokenOracle(overrides?: CallOverrides): Promise<string>;
+    totalBurned(overrides?: CallOverrides): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalTaxAdded(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
       recipient: string,
@@ -1098,14 +920,16 @@ export interface Token extends BaseContract {
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
 
-    "TaxOfficeTransferred(address,address)"(
-      oldAddress?: null,
-      newAddress?: null
-    ): TaxOfficeTransferredEventFilter;
-    TaxOfficeTransferred(
-      oldAddress?: null,
-      newAddress?: null
-    ): TaxOfficeTransferredEventFilter;
+    "TaxAdded(address,address,uint256)"(
+      account?: string | null,
+      taxFund?: null,
+      amount?: null
+    ): TaxAddedEventFilter;
+    TaxAdded(
+      account?: string | null,
+      taxFund?: null,
+      amount?: null
+    ): TaxAddedEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
@@ -1120,17 +944,11 @@ export interface Token extends BaseContract {
   };
 
   estimateGas: {
-    INITIAL_AIRDROP_WALLET_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    INITIAL_BOMB_POOL_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     INITIAL_GENESIS_POOL_DISTRIBUTION(
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    addLiquidityEnabled(overrides?: CallOverrides): Promise<BigNumber>;
 
     allowance(
       owner: string,
@@ -1143,8 +961,6 @@ export interface Token extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
-
-    autoCalculateTax(overrides?: CallOverrides): Promise<BigNumber>;
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1159,7 +975,7 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    burnThreshold(overrides?: CallOverrides): Promise<BigNumber>;
+    burnRate(overrides?: CallOverrides): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1169,44 +985,17 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    disableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     distributeReward(
       _genesisPool: string,
-      _tokenPool: string,
-      _airdropWallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    enableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    getTokenPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
-    excludeAddress(
-      _address: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    excludedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    getTaxTiersRatesCount(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getTaxTiersTwapsCount(overrides?: CallOverrides): Promise<BigNumber>;
+    getTokenUpdatedPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     governanceRecoverUnsupported(
       _token: string,
-      _amount: BigNumberish,
-      _to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    includeAddress(
-      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1216,8 +1005,13 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    isAddressExcluded(
-      _address: string,
+    isExcludedFromFee(
+      _account: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    isExcludedToFee(
+      _account: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1233,6 +1027,8 @@ export interface Token extends BaseContract {
 
     operator(overrides?: CallOverrides): Promise<BigNumber>;
 
+    oracle(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
@@ -1241,18 +1037,36 @@ export interface Token extends BaseContract {
 
     rewardPoolDistributed(overrides?: CallOverrides): Promise<BigNumber>;
 
-    setBurnThreshold(
-      _burnThreshold: BigNumberish,
+    setBurnRate(
+      _burnRate: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTaxCollectorAddress(
-      _taxCollectorAddress: string,
+    setExcludeBothDirectionsFee(
+      _account: string,
+      _status: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTaxOffice(
-      _taxOffice: string,
+    setExcludeFromFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setExcludeToFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setOracle(
+      _oracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTaxFund(
+      _taxFund: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -1261,44 +1075,21 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTaxTiersRate(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setTaxTiersTwap(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setTokenOracle(
-      _tokenOracle: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
-    taxCollectorAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    taxOffice(overrides?: CallOverrides): Promise<BigNumber>;
+    taxFund(overrides?: CallOverrides): Promise<BigNumber>;
 
     taxRate(overrides?: CallOverrides): Promise<BigNumber>;
 
-    taxTiersRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
+    toggleAddLiquidityEnabled(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    taxTiersTwaps(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    tokenOracle(overrides?: CallOverrides): Promise<BigNumber>;
+    totalBurned(overrides?: CallOverrides): Promise<BigNumber>;
 
     totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
+
+    totalTaxAdded(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
       recipient: string,
@@ -1325,15 +1116,11 @@ export interface Token extends BaseContract {
   };
 
   populateTransaction: {
-    INITIAL_AIRDROP_WALLET_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    INITIAL_BOMB_POOL_DISTRIBUTION(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     INITIAL_GENESIS_POOL_DISTRIBUTION(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    addLiquidityEnabled(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1348,8 +1135,6 @@ export interface Token extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    autoCalculateTax(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     balanceOf(
       account: string,
@@ -1367,7 +1152,7 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    burnThreshold(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    burnRate(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -1377,48 +1162,19 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    disableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     distributeReward(
       _genesisPool: string,
-      _tokenPool: string,
-      _airdropWallet: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    enableAutoCalculateTax(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    getTokenPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    excludeAddress(
-      _address: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    excludedAddresses(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTaxTiersRatesCount(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getTaxTiersTwapsCount(
+    getTokenUpdatedPrice(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     governanceRecoverUnsupported(
       _token: string,
-      _amount: BigNumberish,
-      _to: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    includeAddress(
-      _address: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1428,8 +1184,13 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    isAddressExcluded(
-      _address: string,
+    isExcludedFromFee(
+      _account: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    isExcludedToFee(
+      _account: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1445,6 +1206,8 @@ export interface Token extends BaseContract {
 
     operator(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    oracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
@@ -1455,18 +1218,36 @@ export interface Token extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    setBurnThreshold(
-      _burnThreshold: BigNumberish,
+    setBurnRate(
+      _burnRate: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTaxCollectorAddress(
-      _taxCollectorAddress: string,
+    setExcludeBothDirectionsFee(
+      _account: string,
+      _status: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTaxOffice(
-      _taxOffice: string,
+    setExcludeFromFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setExcludeToFee(
+      _account: string,
+      _status: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setOracle(
+      _oracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTaxFund(
+      _taxFund: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1475,46 +1256,21 @@ export interface Token extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTaxTiersRate(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setTaxTiersTwap(
-      _index: BigNumberish,
-      _value: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setTokenOracle(
-      _tokenOracle: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    taxCollectorAddress(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    taxOffice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    taxFund(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     taxRate(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    taxTiersRates(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
+    toggleAddLiquidityEnabled(
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    taxTiersTwaps(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    tokenOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    totalBurned(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    totalTaxAdded(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transfer(
       recipient: string,

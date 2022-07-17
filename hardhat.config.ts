@@ -182,6 +182,7 @@ const config: HardhatUserConfig = {
         },
         'bsc-testnet': {
             url: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+            //    accounts: [`${process.env.ACCT1}`],
             accounts,
             chainId: 97,
             live: true,
@@ -289,6 +290,15 @@ const config: HardhatUserConfig = {
         compilers: [
             {
                 version: '0.6.12',
+                settings: {
+                    optimizer: {
+                        enabled: true,
+                        runs: 200,
+                    },
+                },
+            },
+            {
+                version: '0.8.9',
                 settings: {
                     optimizer: {
                         enabled: true,

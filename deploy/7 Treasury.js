@@ -1,7 +1,7 @@
-module.exports = async function ({getNamedAccounts, deployments}) {
-    const {deploy} = deployments;
+module.exports = async function ({ getNamedAccounts, deployments }) {
+    const { deploy } = deployments;
 
-    const {deployer, dev} = await getNamedAccounts();
+    const { deployer, dev } = await getNamedAccounts();
 
     //  const token = await ethers.getContract("Token");
 
@@ -28,7 +28,30 @@ module.exports = async function ({getNamedAccounts, deployments}) {
     //     deterministicDeployment: false,
     // });
     // console.log(emp.address);
-    const bnb = await deploy('TreasuryBUSD', {
+    const ada = await deploy('TreasuryADA', {
+        from: deployer,
+        //  args: [token.address, 1637284903],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log(ada.address);
+
+    const atom = await deploy('TreasuryATOM', {
+        from: deployer,
+        //  args: [token.address, 1637284903],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log(atom.address);
+    const dot = await deploy('TreasuryDOT', {
+        from: deployer,
+        //  args: [token.address, 1637284903],
+        log: true,
+        deterministicDeployment: false,
+    });
+    console.log(dot.address);
+
+    const bnb = await deploy('TreasuryBTC', {
         from: deployer,
         //  args: [token.address, 1637284903],
         log: true,

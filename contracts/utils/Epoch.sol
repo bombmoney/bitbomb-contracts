@@ -2,9 +2,9 @@
 
 pragma solidity 0.6.12;
 
-import '@openzeppelin/contracts/math/SafeMath.sol';
+import "../lib/SafeMath.sol";
 
-import '../owner/Operator.sol';
+import "../owner/Operator.sol";
 
 contract Epoch is Operator {
     using SafeMath for uint256;
@@ -29,16 +29,16 @@ contract Epoch is Operator {
 
     /* ========== Modifier ========== */
 
-    modifier checkStartTime {
-        require(now >= startTime, 'Epoch: not started yet');
+    modifier checkStartTime() {
+        require(now >= startTime, "Epoch: not started yet");
 
         _;
     }
 
-    modifier checkEpoch {
+    modifier checkEpoch() {
         uint256 _nextEpochPoint = nextEpochPoint();
         if (now < _nextEpochPoint) {
-            require(msg.sender == operator(), 'Epoch: only operator allowed for pre-epoch');
+            require(msg.sender == operator(), "Epoch: only operator allowed for pre-epoch");
             _;
         } else {
             _;
@@ -77,7 +77,7 @@ contract Epoch is Operator {
     /* ========== GOVERNANCE ========== */
 
     function setPeriod(uint256 _period) external onlyOperator {
-        require(_period >= 1 hours && _period <= 48 hours, '_period: out of range');
+        require(_period >= 1 hours && _period <= 48 hours, "_period: out of range");
         period = _period;
     }
 
